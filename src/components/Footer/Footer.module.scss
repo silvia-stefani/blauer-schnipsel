@@ -1,0 +1,14 @@
+@import '@/assets/sass/lib/vars';
+
+.Footer {
+    padding: 12px 16px;
+    color: $light;
+    background-color: $dark;
+    font-weight: 200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    small {
+        font-size: 13px;
+    }
+}

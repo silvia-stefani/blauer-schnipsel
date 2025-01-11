@@ -1,0 +1,100 @@
+@import '@/assets/sass/lib/vars';
+
+@keyframes _appear {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(0%); }
+}
+
+.Header {
+    width: 100%;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: $track;
+    color: $primary;
+    background-color: $light;
+
+    .toggle {
+        transition: all 320ms ease;
+        &:hover {
+            cursor: pointer;
+            opacity: 0.8;
+        }
+    }
+
+    .menu {
+        width: 100%;
+        align-items: center;
+        display: flex;
+        transition: all 200ms ease;
+
+        &.open {
+            transform: translateX(0%);
+            .logo, .navbar {
+                display: flex;
+            }
+        }
+        .logo {
+            white-space: nowrap;
+            font-size: 20px;
+            font-weight: 600;
+        }
+        .navbar {
+            width: 100%;
+            display: flex;
+            justify-content: end;
+            gap: 32px;
+            .list {
+                max-width: 100%;
+                list-style: none;
+                padding: 0;
+                display: flex;
+                align-items: center;
+                gap: 4px;
+                .item, 
+                .language {
+                    font-size: 20px;
+                    font-weight: 600;
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    transition: all 200ms ease;
+                    &:hover:not(.current) {
+                        opacity: 0.6;
+                        cursor: pointer;
+                    }
+                    &.disabled {
+                        pointer-events: none;
+                        opacity: 0.4;
+                    }
+                    &.current {
+                        color: $primary;
+                    }
+                }
+                .item {
+                    &:not(:last-child)::after {
+                        content: "/";
+                    }
+                    a {
+                        display: inline-flex;
+                        align-items: center;
+                        justify-content: center;
+                    }
+                }
+                .language {
+                    text-transform: uppercase;
+                    font-size: 18px;
+                    font-weight: 600;
+                }
+            }
+        }
+    }
+
+    &.scrollActive:has(.menu.open) {
+        background-color: $secondary;
+        border-color: rgba(0, 0, 0, 0.1);
+    }
+}
