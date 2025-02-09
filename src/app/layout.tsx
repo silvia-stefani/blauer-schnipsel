@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 
 import '../assets/sass/main.scss';
 import App from "./App";
+import { TratteggioProvider } from "@/contexts/TratteggioContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,7 +19,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="it">
-      <App>{children}</App>
+      <TratteggioProvider>
+        <App>{children}</App>
+      </TratteggioProvider>
     </html>
   );
 }

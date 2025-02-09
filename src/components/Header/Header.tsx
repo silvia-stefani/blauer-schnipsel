@@ -1,7 +1,7 @@
 'use client'
 import { menuItems, menuItemsI } from '@/models/menuItems';
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import styles from './Header.module.scss';
@@ -9,6 +9,9 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import i18n, { languages } from '@/i18n';
 import useBreakpoints from '@/hooks/useBreakpoints';
+import Tratteggio from '../Tratteggio/Tratteggio';
+import { useTratteggio } from '@/contexts/TratteggioContext';
+import { bs1 } from '@/models/formine';
 
 interface IHeaderProps {
 }
@@ -17,6 +20,7 @@ const Header: React.FunctionComponent<IHeaderProps> = (props) => {
 
     const { t } = useTranslation();
     const { largeDevice } = useBreakpoints();
+    const { currentTratteggio, swipeTratteggio } = useTratteggio();
     const currentLanguage = i18n.language;
     const supportedLanguages = i18n.options.supportedLngs || [];
 
@@ -38,7 +42,9 @@ const Header: React.FunctionComponent<IHeaderProps> = (props) => {
     
     return <header className={`${styles.Header}`}>
         <div className={`${styles.menu} ${open ? styles.open : ''}`}>
+
             <a href="/" className={styles.logo}>Blauer Schnipsel</a>
+            
             <nav className={styles.navbar}>
                 {largeDevice && <ul className={styles.list}>
                     {menuItems.map((mi) => (
@@ -48,6 +54,8 @@ const Header: React.FunctionComponent<IHeaderProps> = (props) => {
                         </li>
                     ))}
                 </ul>}
+            </nav>
+            <div className={styles.features}>
                 <ul className={styles.list}>
                     {supportedLanguages.map((lang) => {
                         const isCurrent = lang === currentLanguage;
@@ -55,13 +63,22 @@ const Header: React.FunctionComponent<IHeaderProps> = (props) => {
                         return <li key={lang} className={`${styles.language} ${isCurrent ? styles.current : ''}`}><button onClick={() => changeLanguage(lang)}>{lang}</button></li>;
                     })}
                 </ul>
-            </nav>
+                <button className={styles.swipeTratteggio} onClick={swipeTratteggio}>
+                    <svg viewBox={`0 0 ${currentTratteggio.viewbox.w} ${currentTratteggio.viewbox.h}`}>
+                        <path d={currentTratteggio.path} />
+                    </svg>
+                </button>
+                <a className={styles.swipeTratteggio} href='/interactive' target='_blank'>
+                    {bs1.svg}
+                </a>
+            </div>
         </div>
         {/* <div className={styles.toggle} onClick={handleToggleMenu}>
             <svg xmlns="http://www.w3.org/2000/svg"viewBox="0 -960 960 960" width="60px" height="60px">
                 {open ? Close : Menu }
             </svg>
         </div> */}
+        <Tratteggio direction='horizontal' />
     </header>;
     };
 

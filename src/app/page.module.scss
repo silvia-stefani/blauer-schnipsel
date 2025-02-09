@@ -3,37 +3,58 @@
 
 .home {
     width: 100%;
-    height: 100%;
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr auto 300px;
 
     .container {
         width: 100%;
+        height: 100%;
+        overflow-y: auto;
         display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 40px;
-        color: $primary;
-        transition: all 1s ease-in-out;
+        flex-direction: column;
 
-        h2 {
-            font-size: 4vw;
-            color: currentColor;
-            user-select: none;
+        .introduction {
+            position: relative;
+            width: 100%;
+            min-height: 100%;
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            color: $primary;
+            transition: all 1s ease-in-out;
+
+            h2 {
+                font-size: 44px;
+                color: currentColor;
+                user-select: none;
+            }
+
+            /* &.start {
+                color: $tertiary;
+            } */
         }
 
-        &.start {
-            color: $secondary;
+        .archive {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
         }
     }
 
     .sidebar {
         width: 100%;
-        max-width: 400px;
-        border-left: $track;
+        height: 100%;
+        overflow-y: auto;
+
+        .events {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+        }
     }
 
-    @media (max-width: 1024px) {
-        flex-direction: column;
+    @media (max-width: 768px) {
+        grid-template-columns: 1fr;
         
         .container {
             padding: 16px;

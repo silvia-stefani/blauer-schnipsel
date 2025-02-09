@@ -1,11 +1,53 @@
 {
     "menu": {
-      "workshops": "Workshops",
+      "services": "Servizi",
       "archive": "Archive",
       "manifest": "Manifest",
       "about": "About"
     },
-    "home": {
-      "introduction": "Blauer Schnipsel is a collective does extraordinary upcycling & collaborative creative reuse workshops manual & craft activities for all those who want to create beautiful memories, moments of sharing, relationships"
-    }
+    "intro_bs": {
+      "is": {
+        "static": "Blauer Schnipsel is",
+        "dynamic": [
+          "a collective",
+          "a group of friends",
+          "a working group",
+          "an association",
+          "a group of goblins",
+          "a crew of pirates",
+          "a gathering"
+        ]
+      },
+      "that": {
+        "static": "that",
+        "dynamic": [
+          "takes trash and turns it into beauty",
+          "runs extraordinary workshops on upcycling & collaborative creative reuse",
+          "confuses you"
+        ]
+      },
+      "through": {
+        "static": "through",
+        "dynamic": [
+          "actions in non-designated spaces",
+          "the contamination of disciplines, practices, groups of people & spaces",
+          "hands-on and craft-based activities for the creative reuse of waste"
+        ]
+      },
+      "for": {
+        "static": "for",
+        "dynamic": [
+          "everyone who feels like it"
+        ]
+      },
+      "aim": {
+        "static": "with the aim of",
+        "dynamic": [
+          "showing how tradition can be collectively innovated",
+          "experiencing creative reuse of waste firsthand",
+          "breaking free from practices confined to specific groups",
+          "creating beautiful memories, moments of sharing, and relationships"
+        ]
+      }
+  }
 }

@@ -1,0 +1,11 @@
+@import '@/assets/sass/lib/vars';
+
+.AnimatedText {
+    span:not(:last-child) {
+        margin-right: 12px;
+    }
+    span.dynamic {
+        color: $secondary;
+    }
+}
+ 

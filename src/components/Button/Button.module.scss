@@ -1,0 +1,17 @@
+@import '@/assets/sass/lib/vars';
+
+.Button {
+    width: fit-content;
+    max-width: 100%;
+    display: flex;
+    padding: 8px 12px;
+    font-size: 16px;
+    &.primary {
+        color: $light;
+        background-color: $primary;
+    }
+    &.light {
+        color: $primary;
+        background-color: $light;
+    }
+}

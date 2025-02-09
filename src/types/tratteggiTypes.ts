@@ -1,0 +1,1 @@
+export type tratteggiTypes = "rombi" | "onde" | "lineare";

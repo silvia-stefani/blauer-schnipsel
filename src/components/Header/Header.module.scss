@@ -7,15 +7,28 @@
 
 .Header {
     width: 100%;
-    padding: 16px;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    border-bottom: $track;
     color: $primary;
-    background-color: $light;
+
+    .swipeTratteggio {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: $primary;
+        padding: 4px;
+        transition: all 200ms ease;
+        &:hover {
+            opacity: 0.8;
+        }
+        svg {
+            fill: $light;
+            width: 14px;
+            height: 14px;
+            transform: rotate(90deg);
+        }
+    }
 
     .toggle {
         transition: all 320ms ease;
@@ -30,6 +43,8 @@
         align-items: center;
         display: flex;
         transition: all 200ms ease;
+        padding: 16px;
+        gap: 8px;
 
         &.open {
             transform: translateX(0%);
@@ -39,57 +54,67 @@
         }
         .logo {
             white-space: nowrap;
-            font-size: 20px;
+            font-size: 16px;
             font-weight: 600;
         }
         .navbar {
             width: 100%;
             display: flex;
-            justify-content: end;
-            gap: 32px;
-            .list {
-                max-width: 100%;
-                list-style: none;
-                padding: 0;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            /* .dot {
+                width: 4px;
+                height: 4px;
+                background-color: $primary;
+                border-radius: 50%;
+                margin-top: 8px;
+            } */
+        }
+        .list {
+            max-width: 100%;
+            list-style: none;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            .item, 
+            .language {
+                font-size: 16px;
+                font-weight: 600;
+                text-transform: lowercase;
                 display: flex;
                 align-items: center;
-                gap: 4px;
-                .item, 
-                .language {
-                    font-size: 20px;
-                    font-weight: 600;
-                    display: flex;
-                    align-items: center;
-                    gap: 8px;
-                    transition: all 200ms ease;
-                    &:hover:not(.current) {
-                        opacity: 0.6;
-                        cursor: pointer;
-                    }
-                    &.disabled {
-                        pointer-events: none;
-                        opacity: 0.4;
-                    }
-                    &.current {
-                        color: $primary;
-                    }
+                transition: all 200ms ease;
+                &:hover:not(.current) {
+                    opacity: 0.6;
+                    cursor: pointer;
                 }
-                .item {
-                    &:not(:last-child)::after {
-                        content: "/";
-                    }
-                    a {
-                        display: inline-flex;
-                        align-items: center;
-                        justify-content: center;
-                    }
-                }
-                .language {
-                    text-transform: uppercase;
-                    font-size: 18px;
-                    font-weight: 600;
+                &.disabled {
+                    pointer-events: none;
+                    opacity: 0.4;
                 }
             }
+            .item {
+                &:not(:last-child)::after {
+                    content: "/";
+                }
+                a {
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+            }
+            .language {
+                text-transform: lowercase;
+                font-weight: 600;
+                &:not(:last-child)::after {
+                    content: "/";
+                }
+            }
+        }
+        .features {
+            display: flex;
+            gap: 8px;
         }
     }
 

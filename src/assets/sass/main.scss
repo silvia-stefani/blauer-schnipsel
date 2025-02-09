@@ -1,6 +1,7 @@
 @import '../fonts/GT-Cinetype/stylesheet.css';
 
 @import './lib/vars';
+@import './lib/type';
 @import './lib/animations';
 
 * {
@@ -8,19 +9,29 @@
     margin: 0;
 }
 
+::-webkit-scrollbar, 
+::-webkit-scrollbar-thumb {
+    width: 0;
+    height: 0;
+    background: transparent;
+}
+
 body {
     width: 100%;
-    min-height: 100vh;
+    height: 100vh;
     font-family: 'GTCinetype', sans-serif;
     font-weight: 400;
+    color: $primary;
     background-color: $light;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
 }
 
 main {
     width: 100%;
-    flex-grow: 1;
+    height: 100%;
+    overflow-y: auto;
 }
 
 button {

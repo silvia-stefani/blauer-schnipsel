@@ -1,0 +1,40 @@
+.ServiceCard {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-height: 100%;
+    gap: 8px;
+    .container {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        gap: 8px;
+        .title {
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .text {
+            flex-grow: 1;
+        }
+    }
+    .image {
+        display: none;
+    }
+    &:hover {
+        .container {
+            display: none;
+        }
+        .image {
+            display: block;
+            flex-grow: 1;
+            width: 100%;
+            img {
+                width: 100%;
+                height: 25vw;
+                object-fit: cover;
+            }
+        }
+    }
+}

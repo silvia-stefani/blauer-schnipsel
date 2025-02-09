@@ -38,3 +38,43 @@ export const formine = [
     </svg>
   }
 ]
+
+export const bs1 = {
+  svg: (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 95 80">
+      <path d="M94.85 60.3C73.076 82.195 47.425 79.934 47.425 79.934V0L94.85 60.3ZM0 59.88h47.425v20.053S21.776 82.239 0 59.88Zm0 0L47.425 0v59.88H0Z"/>
+    </svg>
+  ),
+  width: 95,
+  height: 80,
+}
+
+export const bs1broken = [
+  {
+    svg: (
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 61">
+        <path d="M0 0v60.36h47.904L0 0Z"/>
+      </svg>
+    ),
+    width: 48,
+    height: 61,
+  },
+  {
+    svg: (
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 61">
+        <path d="M0 0v60.36h47.904L0 0Z"/>
+      </svg>
+    ),
+    width: 48,
+    height: 61,
+  },
+  {
+    svg: (
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 40">
+            <path d="M.235 19.788C11.744 31.67 28.83 39.2 47.905 39.2c19.073 0 36.16-7.53 47.669-19.412C84.064 7.905 66.978.376 47.904.376S11.744 7.906.234 19.788Z"/>
+      </svg>
+    ),
+    width: 96,
+    height: 40,
+  },
+]

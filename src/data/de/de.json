@@ -1,0 +1,53 @@
+{
+    "menu": {
+      "services": "Dienstleistungen",
+      "archive": "Archiv",
+      "manifest": "Manifest",
+      "about": "Über uns"
+    },
+    "intro_bs": {
+      "is": {
+        "static": "Blauer Schnipsel ist",
+        "dynamic": [
+          "ein Kollektiv",
+          "eine Gruppe von Freund*innen",
+          "eine Arbeitsgruppe",
+          "ein Verein",
+          "eine Gruppe von Kobolden",
+          "eine Piratencrew",
+          "eine Versammlung"
+        ]
+      },
+      "that": {
+        "static": "die",
+        "dynamic": [
+          "Müll in Schönheit verwandelt",
+          "außergewöhnliche Workshops zu Upcycling & kreativem, kollaborativem Wiederverwenden durchführt",
+          "dich verwirrt"
+        ]
+      },
+      "through": {
+        "static": "durch",
+        "dynamic": [
+          "Aktionen in nicht vordefinierten Räumen",
+          "die Vermischung von Disziplinen, Praktiken, Gruppen & Räumen",
+          "handwerkliche und manuelle Aktivitäten zur kreativen Wiederverwendung von Abfall"
+        ]
+      },
+      "for": {
+        "static": "für",
+        "dynamic": [
+          "alle, die Lust darauf haben"
+        ]
+      },
+      "aim": {
+        "static": "mit dem Ziel",
+        "dynamic": [
+          "zu zeigen, wie Tradition kollektiv innoviert werden kann",
+          "praktische Erfahrungen mit kreativem Wiederverwenden von Abfall zu machen",
+          "Praktiken zu enttabuisieren, die bisher nur bestimmten Gruppen vorbehalten waren",
+          "schöne Erinnerungen, Momente des Teilens und Beziehungen zu schaffen"
+        ]
+      }
+    }
+}

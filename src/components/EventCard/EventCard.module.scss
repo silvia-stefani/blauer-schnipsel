@@ -1,0 +1,95 @@
+@import '@/assets/sass/lib/vars';
+
+@keyframes scroll {
+    from {
+      transform: translateX(0); /* Comienza en su posición original */
+    }
+    to {
+      transform: translateX(-100%); /* Se desplaza hacia la izquierda completamente */
+    }
+  }
+
+.EventCard {
+    .container {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        .marqueeWrapper {
+            position: relative;
+            overflow: hidden; /* Ocultamos el contenido fuera del contenedor */
+            width: 100%;
+            .marquee {
+                width: 100%;
+                display: flex;
+                animation: scroll 10s linear infinite; /* Desplazamiento infinito */
+                gap: 8px; /* Espaciado entre palabras */
+                padding-top: 16px;
+                span {
+                    white-space: nowrap; /* Evita que el texto salte de línea */
+                    text-transform: uppercase;
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    &:not(:first-child)::after {
+                        content: "";
+                        display: block;
+                        width: 4px;
+                        height: 4px;
+                        background-color: $light;
+                        border-radius: 50%;
+                    }
+                }
+            }
+        }
+    
+        .content {
+            display: flex;
+            flex-direction: column;
+            padding: 16px;
+            gap: 16px;
+            .head {
+                .title {}
+                .info {}
+            }
+            .image {
+                width: 100%;
+                img {
+                    width: 100%;
+                    height: 300px;
+                    object-fit: cover;
+                    object-position: center center;
+                }
+                position: relative;
+                &::before {
+                    content: "";
+                    display: block;
+                    width: 100%;
+                    height: 100%;
+                    position: absolute;
+                    background-color: $primary;
+                    mix-blend-mode: color;
+                    z-index: 1;
+                    pointer-events: none;
+                }
+            }
+        }
+    }
+    
+    &[data-book="true"] {
+        .container {
+            color: $light;
+            background-color: $primary;
+        }
+    }
+
+    .tag {
+        width: fit-content;
+        max-width: 100%;
+        padding: 8px 12px;
+        border-radius: 100px;
+        color: $primary;
+        background-color: $secondary;
+        font-size: 14px;
+        font-weight: 600;
+    }
+}

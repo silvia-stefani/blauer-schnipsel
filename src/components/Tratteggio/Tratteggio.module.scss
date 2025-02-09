@@ -1,0 +1,16 @@
+@import '@/assets/sass/lib/vars';
+
+.Tratteggio {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    fill: $primary;
+    .wrapper {
+        display: flex;
+        width: 100%;
+        position: absolute;
+        z-index: 100;
+        svg {}
+    }
+}

@@ -1,11 +1,53 @@
 {
     "menu": {
-      "workshops": "Workshops",
+      "services": "Services",
       "archive": "Archivio",
       "manifest": "Manifesto",
       "about": "Su di noi"
     },
-    "home": {
-      "introduction": "Blauer Schnipsel è un collettivo fa laboratori straordinari di upcycling & riuso creativo collaborativo attività manuali & artigianali di riuso creativo dello scarto per tutt* quell* che hanno voglia creare bei ricordi, momenti di codivisione, relazioni"
+    "intro_bs": {
+      "is": {
+        "static": "Blauer Schnipsel è",
+        "dynamic": [
+          "un collettivo",
+          "un gruppo di amic*he",
+          "un gruppo di lavoro",
+          "un'associazione",
+          "un gruppo di folletti",
+          "una ciurma di pirati",
+          "un assembramento"
+        ]
+      },
+      "that": {
+        "static": "che",
+        "dynamic": [
+          "prende la monnezza e la trasforma in bellezza",
+          "fa laboratori straordinari di upcycling & riuso creativo collaborativo",
+          "ti confonde"
+        ]
+      },
+      "through": {
+        "static": "tramite",
+        "dynamic": [
+          "azioni in spazi non connotati",
+          "la contaminazione tra discipline, pratiche, gruppi di persone & spazi",
+          "attività manuali e artigianali di riuso creativo dello scarto"
+        ]
+      },
+      "for": {
+        "static": "per",
+        "dynamic": [
+          "tutt* quell* che hanno voglia"
+        ]
+      },
+      "aim": {
+        "static": "con lo scopo di",
+        "dynamic": [
+          "dimostrare come si possa innovare collettivamente la tradizione",
+          "fare esperienza pratica del riuso creativo dello scarto",
+          "sdoganare pratiche rilegate a gruppi specifici",
+          "creare bei ricordi, momenti di condivisione, relazioni"
+        ]
+      }
     }
-  }
+}
