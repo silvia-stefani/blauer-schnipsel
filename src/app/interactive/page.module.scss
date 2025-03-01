@@ -1,0 +1,55 @@
+@import '@/assets/sass/lib/vars';
+
+.interactive {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    cursor: none;
+    .cursor {
+        position: fixed;
+        z-index: 2;
+        width: 100px;
+        height: 100px;
+        pointer-events: none;
+        transform-origin: center;
+        transform: translate(-50%, -50%);
+        svg {
+            fill: $primary;
+            mix-blend-mode: difference;
+        }
+    }
+    &:has(a:hover) {
+        cursor: unset;
+        .cursor {
+            display: none;
+        }
+    }
+    .container {
+        flex-grow: 1;
+        padding: 32px;
+    }
+    a {
+        display: flex;
+        padding: 32px;
+        font-size: 44px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        .title {
+            flex-grow: 1;
+        }
+        .icon {
+            visibility: hidden;
+        }
+        &:hover {
+            cursor: pointer;
+            .title {
+                /* text-decoration: underline; */
+                opacity: 0.2;
+            }
+            .icon {
+                visibility: visible;
+            }
+        }
+    }
+}
