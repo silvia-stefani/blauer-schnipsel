@@ -17,7 +17,6 @@ const usePageContent = (id: number) => {
       try {
         setLoading(true);
         let page = await getProject(id);
-        console.log(page);
         if(!(page.id === page.translations[lang])) {
           page = await getProject(page.translations[lang]);
         }
