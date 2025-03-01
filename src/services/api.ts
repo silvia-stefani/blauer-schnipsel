@@ -68,3 +68,14 @@ export const getMenu = async (lang: string) => {
     return 'No Category';  // Valor por defecto si ocurre un error
   }
 };
+
+// Función para obtener los statements
+export const getStatements = async () => {
+  try {
+    const response = await axios.get(`${apiURL}/statements`);
+    return response.data;  // Devuelve el listado
+  } catch (error) {
+    console.error('Error fetching statements:', error);
+    return 'No Category';  // Valor por defecto si ocurre un error
+  }
+};
