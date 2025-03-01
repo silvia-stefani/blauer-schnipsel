@@ -1,11 +1,17 @@
 @import '@/assets/sass/lib/vars';
 
 .AnimatedText {
+    font-size: 44px;
+    font-weight: 400;
+    color: currentColor;
+    user-select: none;
     span:not(:last-child) {
         margin-right: 12px;
     }
     span.dynamic {
-        color: $secondary;
+        /* color: $secondary; */
+        text-decoration: underline;
+        /* font-weight: 400; */
     }
 }
  

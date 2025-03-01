@@ -1,21 +1,34 @@
 @import '@/assets/sass/lib/vars';
 
-.archive {
-    .filters {
+.manifest {
+    width: 100%;
+    ol.list {
+        counter-reset: statements;
         width: 100%;
+        padding: 0;
+        list-style: none;
         display: flex;
-        gap: 16px;
-        .cat {
-            color: $secondary;
-            padding: 2px 4px;
-            &:hover {
-                cursor: pointer;
-                opacity: 0.8;
-            }
-            &.current {
-                color: $light;
-                background-color: $secondary;
+        flex-direction: column;
+        li.item {
+            width: 100%;
+            counter-increment: statements;
+            display: flex;
+            flex-direction: column;
+            .text {
+                width: 100%;
+                font-size: 28px;
+                font-weight: 600;
+                padding: 40px 20px;
+                display: flex;
+                &::before {
+                    content: counter(statements);
+                    font-size: 20px;
+                    font-weight: 400;
+                    margin-top: 4px;
+                    min-width: calc(100% / 3);
+                }
             }
         }
+
     }
 }

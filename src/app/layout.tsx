@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 import '../assets/sass/main.scss';
 import App from "./App";
 import { TratteggioProvider } from "@/contexts/TratteggioContext";
+import { ArchiveProvider } from "@/contexts/ArchiveContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,9 +20,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="it">
+      <ArchiveProvider>
       <TratteggioProvider>
         <App>{children}</App>
       </TratteggioProvider>
+      </ArchiveProvider>
     </html>
   );
 }

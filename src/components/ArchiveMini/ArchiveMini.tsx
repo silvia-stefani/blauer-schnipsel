@@ -11,11 +11,10 @@ const ArchiveMini: React.FunctionComponent<IArchiveMiniProps> = ({
     image,
     date,
     location,
-    link,
     category,
     can_book,
 }) => {
-  return <a id={String(id)} className={styles.ArchiveMini} href={link}>
+  return <a id={String(id)} className={styles.ArchiveMini} href={`/project/${id}`}>
     <div className={styles.image}>
         <img src={image} alt={title} />
     </div>

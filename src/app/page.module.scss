@@ -20,18 +20,7 @@
             display: flex;
             align-items: center;
             padding: 20px;
-            color: $primary;
             transition: all 1s ease-in-out;
-
-            h2 {
-                font-size: 44px;
-                color: currentColor;
-                user-select: none;
-            }
-
-            /* &.start {
-                color: $tertiary;
-            } */
         }
 
         .archive {

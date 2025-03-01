@@ -1,17 +1,17 @@
 import { useState, useEffect, Fragment } from "react";
 import styles from './AnimatedText.module.scss';
 import { useTranslation } from "react-i18next";
-import { IntroTextsInterface } from "@/interfaces/IntroTextsInterface.interface";
+import { IntroTextsI } from "@/interfaces/IntroTextsI.interface";
 
 export default function AnimatedText() {
 
     const { t } = useTranslation();
     
-    const bsIs: IntroTextsInterface = t("intro_bs.is", { returnObjects: true });
-    const bsThat: IntroTextsInterface = t("intro_bs.that", { returnObjects: true });
-    const bsThrough: IntroTextsInterface = t("intro_bs.through", { returnObjects: true });
-    const bsFor: IntroTextsInterface = t("intro_bs.for", { returnObjects: true });
-    const bsAim: IntroTextsInterface = t("intro_bs.aim", { returnObjects: true });
+    const bsIs: IntroTextsI = t("intro_bs.is", { returnObjects: true });
+    const bsThat: IntroTextsI = t("intro_bs.that", { returnObjects: true });
+    const bsThrough: IntroTextsI = t("intro_bs.through", { returnObjects: true });
+    const bsFor: IntroTextsI = t("intro_bs.for", { returnObjects: true });
+    const bsAim: IntroTextsI = t("intro_bs.aim", { returnObjects: true });
 
     const textGroups = [bsIs, bsThat, bsThrough, bsFor, bsAim];
 
@@ -85,6 +85,7 @@ export default function AnimatedText() {
             <Fragment key={i}>
             <span className={styles.static}>{group.static}</span>
             <span className={styles.dynamic}>{texts[i]}</span>
+            <br></br>
             </Fragment>
         ))}
 

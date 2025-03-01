@@ -4,19 +4,14 @@ import Head from '@/layout/Head/Head';
 import Grid from '@/layout/Grid/Grid';
 import ArchiveMini from '@/components/ArchiveMini/ArchiveMini';
 import useProjects from '@/hooks/useProjects';
-import { useTranslation } from 'react-i18next';
-import usePageContent from '@/hooks/usePageContent';
+import { useArchive } from '@/contexts/ArchiveContext';
 
 export default function archive() {
     
-    const { t, i18n } = useTranslation();
-    const currentLocale = i18n.language;    
-    const { projects, categories, currentCategory, switchCategory, loading, error } = useProjects(currentLocale);
+    const { projects, loading, error } = useProjects();
+    const { currentCategory, categories, switchCategory } = useArchive();
 
-    if (loading) {
-      return <p>Loading...</p>;
-    }
-  
+    
     if (error) {
       return <p>{error}</p>;
     }
@@ -34,10 +29,10 @@ export default function archive() {
                         Tutto
                 </div>
                 {categories.map((cat) => {
-                    const isCurrent = cat.id === currentCategory?.id;
+                    const isCurrent = cat.slug_common === currentCategory?.slug_common;
                     return <div 
                     key={cat.id} 
-                    onClick={() => switchCategory(cat.id)}
+                    onClick={() => switchCategory(cat.slug_common)}
                     className={`${styles.cat} ${isCurrent ? styles.current : ''}`}>
                         {cat.name}
                     </div>
@@ -47,11 +42,11 @@ export default function archive() {
             </Head>
         </div>
 
-        <Grid cols={4}>
+        {!loading && <Grid cols={4}>
             {projects.map((ap) => {
                 return <ArchiveMini key={ap.id} {...ap} />
             })}
-        </Grid>
+        </Grid>}
 
     </main>
 }

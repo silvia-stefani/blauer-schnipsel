@@ -110,6 +110,10 @@
                 &:not(:last-child)::after {
                     content: "/";
                 }
+                &.current {
+                    color: $light;
+                    background-color: $primary;
+                }
             }
         }
         .features {

@@ -7,12 +7,15 @@ import Grid from '@/layout/Grid/Grid';
 import usePageContent from '@/hooks/usePageContent';
 import { useTranslation } from 'react-i18next';
 import ServiceCard from '@/components/ServiceCard/ServiceCard';
+import { useState } from 'react';
 
 export default function services() {
 
-    const { t, i18n } = useTranslation();
+    const { i18n } = useTranslation();
     const currentLocale = i18n.language;
-    const { content, loading, error } = usePageContent(`services-${currentLocale}`, currentLocale);
+    const { content, loading, error } = usePageContent('services');
+
+    const [currentImage, setCurrentImage] = useState('');
 
     if(!content) return;
     const services = content.acf;
@@ -22,41 +25,52 @@ export default function services() {
 
     return <main className={styles.services}>
 
+        {currentImage && <div className={styles.currentImage}>
+            <img src={currentImage} alt="" />
+        </div>}
+
         <Head
             title={services[`title_${currentLocale}`]}
             subtitle={services[`subtitle_${currentLocale}`]}
         />
 
-        <Grid cols={4}>
+        <div>
             <ServiceCard
                 id='riuso_creativo'
                 title='Riuso creativo'
                 text='Cucire e riutilizzare è un atto collettivo e sovversivo: in questo laboratorio non solo potrai imparare  come cucire un pezzo in modo collaborativo, ma andremo anche a ritrovare una seconda vita ai materiali di scarto tessile. Scopri qui sotto alcune impressioni da laboratori passati che abbiamo fatto.'
-                link='riuso_creativo'
+                tag={"publications"}
                 image='img/8166-116.jpg'
+                getImage={setCurrentImage}
             />
+            <Tratteggio direction='horizontal' />
             <ServiceCard
                 id='guerrilla_print'
                 title='Guerrilla print'
                 text='Cucire e riutilizzare è un atto collettivo e sovversivo: in questo laboratorio non solo potrai imparare  come cucire un pezzo in modo collaborativo, ma andremo anche a ritrovare una seconda vita.'
-                link='guerrilla_print'
-                image='img/8166-116.jpg'
+                tag={"workshop"}
+                image='img/image_workshop_1.jpg'
+                getImage={setCurrentImage}
             />
+            <Tratteggio direction='horizontal' />
             <ServiceCard
                 id='ars_combinatoria'
                 title='Ars Combinatoria'
                 text='Laboratorio di grafica generativa per applicazioni decorative.'
-                link='ars_combinatoria'
+                tag={"workshop"}
                 image='img/8166-116.jpg'
+                getImage={setCurrentImage}
             />
+            <Tratteggio direction='horizontal' />
             <ServiceCard
                 id='nave_pirata'
                 title='Nave pirata'
                 text='Laboratorio di costruzione collaborativa di una bandiera.'
-                link='nave_pirata'
+                tag={"workshop"}
                 image='img/8166-116.jpg'
+                getImage={setCurrentImage}
             />
-        </Grid>
+        </div>
 
     </main>
 }

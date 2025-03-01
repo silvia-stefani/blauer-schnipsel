@@ -1,30 +1,51 @@
 import * as React from 'react';
 import styles from './ServiceCard.module.scss';
+import useProjects from '@/hooks/useProjects';
+import { useRouter } from 'next/navigation';
+import { useArchive } from '@/contexts/ArchiveContext';
 
 interface IServiceCardProps {
     id: string;
     title: string;
     text: string;
+    tag: string;
     image: string;
-    link: string;
+    getImage: (img: string) => void;
 }
 
 const ServiceCard: React.FunctionComponent<IServiceCardProps> = ({
     id,
     title,
     text,
+    tag,
     image,
-    link,
+    getImage,
 }) => {
+  
+  const { switchCategory } = useArchive();
+  const router = useRouter();
+  
+  const handleMouseOver = () => {
+    getImage(image)
+  }
+
+  const handleMouseLeave = () => {
+    getImage('')
+  }
+
+  const handleClick = () => {
+    switchCategory(tag)
+    router.push("/archive")
+  }
+
   return (
-    <div className={styles.ServiceCard} id={id}>
-        <div className={styles.image}><img src={image} alt={title} /></div>
+    <a className={styles.ServiceCard} id={id} onClick={handleClick} onMouseOver={handleMouseOver} onMouseLeave={handleMouseLeave}>
+        <h6 className={styles.title}>{title}</h6>
         <div className={styles.container}>
-            <h6 className={styles.title}>{title}</h6>
             <div className={styles.text}>{text}</div>
         </div>
-        <a className={styles.link} href={"/" + link}>Leggi di più</a>
-    </div>
+        <div className={styles.link}>Leggi di più</div>
+    </a>
   )
 };
 

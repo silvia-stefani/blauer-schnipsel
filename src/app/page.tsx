@@ -17,11 +17,7 @@ export default function home() {
 
   const { t, i18n } = useTranslation();
   const currentLocale = i18n.language;
-  const { projects } = useProjects(currentLocale);
-  const { content, loading, error } = usePageContent(`home-${currentLocale}`, currentLocale);
-  
-  if(!content) return;
-  const home = content.acf;
+  const { content, loading, error } = usePageContent(`home-${currentLocale}`);
   
   if (loading) return null;
   if (error) return <p>{error}</p>;
@@ -40,17 +36,6 @@ export default function home() {
           </div> */}
           <div className={styles.introduction}>
             <AnimatedText />
-          </div>
-
-          <div className={styles.archive}>
-            <Tratteggio direction='horizontal' />
-            <Head 
-                title="Archivio Progetti"
-                subtitle="Alcuni progetti che rispecchiano la nostra filosofia nelle sue molteplici sfaccettature."
-            />
-            <Grid cols={3}>
-              {projects.slice(0, 2).map((p) => <ArchiveMini key={p.id} {...p} />)}
-            </Grid>
           </div>
 
         </section>

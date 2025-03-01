@@ -1,31 +1,40 @@
 import { useState, useEffect } from 'react';
-import { getProjects, getProjectDetails, getCategory, getCategories } from '@/services/api';
+import { getProjects, getCategory, getCategories, getProjectDetails } from '@/services/api';
+import { useTranslation } from 'react-i18next';
+import { useArchive } from '@/contexts/ArchiveContext';
 
 // Este hook maneja la obtención de proyectos y categorías.
 
-interface ProjectIResponse {
+export interface ProjectIResponse {
     id: number;
+    title: {
+        rendered: string;
+    };
     content: { rendered: string };
     link: string;
+    lang: "it" | "en" | "de";
+    image_gallery: string[] | [];
     acf: { // Esto es donde ACF guarda los campos personalizados
-        title: string,
         date: string;
         location: string;
         cover_image: string;
         can_book: boolean;
-        tag: number[];
+        [key: string]: any,
     };
+    project_tag: number[];
 }
 
 export interface ProjectI {
     id: number;
     link: string;
-    category: ProjectCategory[];
+    lang: "it" | "en" | "de";
+    category: ArchiveCategoryI[];
     title: string,
     date: string;
     location: string;
     image: string;
     can_book: boolean;
+    gallery: string[] | [];
 }
 
 interface Link {
@@ -39,7 +48,7 @@ interface TaxonomyLink {
     href: string;
 }
 
-interface ProjectCategory {
+interface ProjectCategoryResponseI {
     id: number;
     count: number;
     description: string;
@@ -48,7 +57,7 @@ interface ProjectCategory {
     slug: string;
     taxonomy: string;
     meta: any[];
-    acf: any[];
+    acf: {[key: string]: string | number};
     _links: {
         self: Link[];
         collection: TaxonomyLink[];
@@ -63,24 +72,21 @@ interface ProjectCategory {
 }
 
 
-const useProjects = (lang: string) => {
+const useProjects = () => {
 
+    const { i18n } = useTranslation();
+    const lang = i18n.language;    
+    
     const [projects, setProjects] = useState<ProjectI[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
+    const { currentCategory } = useArchive();
 
-    // Categories (project_categories)
-    const [categories, setCategories] = useState<ProjectCategory[]>([]);
-    const [currentCategory, setCurrentCategory] = useState<ProjectCategory | null>(null);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 setLoading(true);
-
-                // Fetch categories
-                const categoriesData = await getCategories(lang);
-                setCategories(categoriesData);
 
                 // Obtener los proyectos
                 const projectsData = await getProjects(lang);
@@ -88,21 +94,23 @@ const useProjects = (lang: string) => {
                 // Obtener los detalles y categorías de cada proyecto
                 const projectsWithCategory: ProjectI[] = await Promise.all(
                     projectsData.map(async (project: ProjectIResponse) => {
-                        const acfDetails: ProjectIResponse = await getProjectDetails(project.id, lang);
+                        /* const acfDetails: ProjectIResponse = await getProjectDetails(project.id, lang); */
                         const categoryLabels = await Promise.all(
-                            acfDetails.acf.tag.map(async (categoryId) => {
+                            project.project_tag.map(async (categoryId: number) => {
                                 return getCategory(categoryId, lang);
                             })
                         );
                         const projectFinal: ProjectI = {
-                            id: acfDetails.id,
-                            category: categoryLabels || 'No Category',
-                            title: acfDetails.acf.title,
-                            date: acfDetails.acf.date,
-                            location: acfDetails.acf.location,
-                            link: acfDetails.link,
-                            image: acfDetails.acf.cover_image,
-                            can_book: acfDetails.acf.can_book,
+                            id: project.id,
+                            category: categoryLabels || [],
+                            title: project.acf[`title_${project.lang}`] as string,
+                            date: project.acf.date,
+                            location: project.acf.location,
+                            link: project.link,
+                            image: project.acf.cover_image,
+                            can_book: project.acf.can_book,
+                            lang: project.lang,
+                            gallery: project.image_gallery,
                         }
                         return projectFinal;
                     })
@@ -110,7 +118,7 @@ const useProjects = (lang: string) => {
 
                 // Filtrar proyectos por categoría
                 const filteredProjects = currentCategory ? projectsWithCategory.filter(project =>
-                    project.category.some(category => category.slug === currentCategory.slug)
+                    project.category.some(category => category.slug_common === currentCategory.slug_common)
                 ) : projectsWithCategory;  // Si no hay categoría seleccionada, devuelve todos los proyectos
 
                 setProjects(filteredProjects);  // Actualiza el estado con los proyectos y categorías
@@ -125,16 +133,7 @@ const useProjects = (lang: string) => {
         fetchData();
     }, [lang, currentCategory]);  // Se ejecuta una sola vez cuando el componente se monta
     
-    const switchCategory = (id?: number) => {
-        if(id) {
-            const current = categories.find((cat) => cat.id === id);
-            if(current) setCurrentCategory(current);
-        } else {
-            setCurrentCategory(null)
-        }
-    }
-
-    return { projects, loading, error, categories, currentCategory, switchCategory };
+    return { projects, loading, error };
 };
 
 export default useProjects;

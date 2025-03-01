@@ -1,0 +1,49 @@
+.project {
+    overflow-y: hidden;
+    display: flex;
+    /* flex-direction: column; */
+    .container {
+        overflow-y: auto;
+        max-height: 100%;
+        display: flex;
+        width: calc(100% / 3);
+    }
+    .tags {
+        display: flex;
+        align-items: center;
+        padding: 16px;
+        gap: 16px;
+        .tag {
+            display: flex;
+            align-items: center;
+            gap: inherit;
+            &:not(:last-child)::after {
+                content: "-";
+            }
+        }
+    }
+    .data {
+        width: 100%;
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+    .gallery {
+        padding: 8px;
+        display: grid;
+        width: 100%;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+        overflow-y: auto;
+        height: 100%;
+        .column {
+            display: flex;
+            flex-direction: column;
+            gap: inherit;
+        }
+        img {
+            width: 100%;
+        }
+    }
+}

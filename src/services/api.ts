@@ -14,6 +14,17 @@ export const getProjects = async (lang: string) => {
   }
 };
 
+// Función para obtener los proyectos
+export const getProject = async (projectId: number) => {
+  try {
+    const response = await axios.get(`${apiURL}/project/${projectId}`);
+    return response.data; // Ahora incluirá el campo "translations"
+  } catch (error) {
+    console.error("Error fetching project details:", error);
+    return null;
+  }
+};
+
 // Función para obtener los detalles de un proyecto usando ACF
 export const getProjectDetails = async (projectId: number, lang: string) => {
   try {
@@ -28,7 +39,7 @@ export const getProjectDetails = async (projectId: number, lang: string) => {
 // Función para obtener las categorías de proyectos
 export const getCategories = async (lang: string) => {
     try {
-      const response = await axios.get(`${apiURL}/project_category?lang=${lang}`);
+      const response = await axios.get(`${apiURL}/project_tag?lang=${lang}`);
       return response.data;  // Devuelve las categorías
     } catch (error) {
       console.error('Error fetching category label:', error);
@@ -39,7 +50,18 @@ export const getCategories = async (lang: string) => {
 // Función para obtener la etiqueta (nombre) de una categoría por su ID
 export const getCategory = async (categoryId: number, lang: string) => {
   try {
-    const response = await axios.get(`${apiURL}/project_category/${categoryId}?lang=${lang}`);
+    const response = await axios.get(`${apiURL}/project_tag/${categoryId}?lang=${lang}`);
+    return response.data;  // Devuelve el nombre de la categoría
+  } catch (error) {
+    console.error('Error fetching category label:', error);
+    return 'No Category';  // Valor por defecto si ocurre un error
+  }
+};
+
+// Función para obtener la etiqueta (nombre) de una categoría por su ID
+export const getMenu = async (lang: string) => {
+  try {
+    const response = await axios.get(`${apiURL}/nav-menus/?location=menu_principal&lang=${lang}`);
     return response.data;  // Devuelve el nombre de la categoría
   } catch (error) {
     console.error('Error fetching category label:', error);

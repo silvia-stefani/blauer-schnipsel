@@ -7,29 +7,6 @@ interface ISchnipselProps {
   containerRef: RefObject<HTMLDivElement>;
 }
 
-function detectSharpPoints(pathElement: SVGPathElement, threshold = 30) {
-  const length = pathElement.getTotalLength();
-  let sharpPoints = [];
-
-  for (let i = 0; i < length; i += 5) {
-      const p1 = pathElement.getPointAtLength(i);
-      const p2 = pathElement.getPointAtLength(i + 5);
-      const p3 = pathElement.getPointAtLength(i + 10);
-
-      if (!p3) break;
-
-      // Calcular los ángulos entre los puntos
-      const angle1 = Math.atan2(p2.y - p1.y, p2.x - p1.x) * (180 / Math.PI);
-      const angle2 = Math.atan2(p3.y - p2.y, p3.x - p2.x) * (180 / Math.PI);
-      const angleDiff = Math.abs(angle2 - angle1);
-
-      if (angleDiff > threshold) {
-          sharpPoints.push({ x: p2.x, y: p2.y });
-      }
-  }
-  return sharpPoints;
-}
-
 interface svgElementI {svg: ReactElement, width: number, height: number};
 
 const Schnipsel: React.FunctionComponent<ISchnipselProps> = ({containerRef}) => {
@@ -88,15 +65,6 @@ const SchnipselSVG: React.FunctionComponent<ISchnipselSVGProps> = ({ svgElement,
   const svgRef = useRef<SVGSVGElement | null>(null);
   const [sharpPoints, setSharpPoints] = useState<{ x: number; y: number }[]>([]);
   const [hoveredSharpPoint, setHoveredSharpPoint] = useState<{ x: number; y: number } | null>(null);
-
-  useEffect(() => {
-    if (svgRef.current) {
-      const path = svgRef.current.querySelector("path");
-      if (path) {
-        setSharpPoints(detectSharpPoints(path)); // Guardamos los puntos en el estado
-      }
-    }
-  }, [svgElement]);
 
   const handleSeparation: MouseEventHandler = (e) => {
     if(mouseMoved) {
@@ -212,25 +180,6 @@ const SchnipselSVG: React.FunctionComponent<ISchnipselSVGProps> = ({ svgElement,
             transform: `rotate(${position.r}deg)`
           },
         })}
-
-      { /* Renderizar puntos puntiagudos para depuración 
-      {sharpPoints.map((point, index) => (
-        <div
-          key={index}
-          onMouseDown={handleRotationStart} 
-          onMouseUp={handleMouseUp}
-          style={{
-            pointerEvents: "auto",
-            position: "absolute",
-            left: point.x,
-            top: point.y,
-            width: "32px",
-            height: "32px",
-            backgroundColor: hoveredSharpPoint === point ? "red" : "green",
-            borderRadius: "50%",
-          }}
-        />
-      ))} */ }
 
       </div>
     </div>

@@ -1,4 +1,4 @@
-export interface IntroTextsInterface {
+export interface IntroTextsI {
     static: string;
     dynamic: string[];
 }

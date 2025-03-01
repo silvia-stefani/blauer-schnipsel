@@ -1,6 +1,7 @@
 import * as React from 'react';
 import styles from './Grid.module.scss';
 import Tratteggio from '@/components/Tratteggio/Tratteggio';
+import { Fragment } from 'react';
 
 interface IGridProps {
     cols: number;
@@ -11,37 +12,33 @@ const Grid: React.FunctionComponent<IGridProps> = ({
     cols,
     children,
 }) => {
-
     // Calculamos automáticamente las filas si no se proporcionan
     const totalElements = children.length;
     const autoRows = Math.ceil(totalElements / cols);
 
-    // Función para renderizar líneas verticales
-    const renderVerticalLines = (index: number) => {
-        if ((index + 1) % cols === 0) return null; // No renderizar al final de una fila
-        return <Tratteggio direction="vertical" />;
-    };
-
-    // Función para renderizar líneas horizontales
-    const renderHorizontalLines = (index: number) => {
-        const isLastRow = Math.floor(index / cols) === autoRows - 1; // Última fila
-        if (index >= totalElements - cols) return null; // No renderizar debajo de la última fila
-        if (!isLastRow || (isLastRow && (index + 1) % cols !== 0)) {
-        return <Tratteggio direction="horizontal" />;
-        }
-        return null;
-    };
+    // Agrupamos los elementos en filas
+    const rows = Array.from({ length: autoRows }, (_, rowIndex) => {
+        return children.slice(rowIndex * cols, (rowIndex + 1) * cols);
+    });
 
     return (
-    <div className={styles.Grid} style={{ gridTemplateColumns: `repeat(${cols}, 1fr)` }}>
-        {children.map((child, index) => (
-            <div key={index} className={styles.item}>
-                {child}
-                {renderVerticalLines(index)}
-                {renderHorizontalLines(index)}
-            </div>
-        ))}
-    </div>
+        <div className={styles.Grid}>
+            {rows.map((row, rowIndex) => (
+                <Fragment key={rowIndex}>
+                {/* Renderizamos la línea horizontal después de cada fila */}
+                {rowIndex > 0 && <Tratteggio direction="horizontal" />}
+                <div className={styles.row} style={{ gridTemplateColumns: `repeat(${cols}, 1fr)` }}>
+                    {row.map((child, colIndex) => (
+                        <div key={colIndex} className={styles.item} style={{ flex: 1 }}>
+                            {child}
+                            {colIndex < row.length - 1 && <Tratteggio direction="vertical" />}
+                        </div>
+                    ))}
+                </div>
+                {rows.length === 1 && <Tratteggio direction="horizontal" />}
+                </Fragment>
+            ))}
+        </div>
     );
 };
 
