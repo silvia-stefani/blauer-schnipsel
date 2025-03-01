@@ -7,7 +7,8 @@ import Grid from '@/layout/Grid/Grid';
 import usePageContent from '@/hooks/usePageContent';
 import { useTranslation } from 'react-i18next';
 import ServiceCard from '@/components/ServiceCard/ServiceCard';
-import { useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
+import { getServices } from '@/services/api';
 
 export default function services() {
 
@@ -17,8 +18,24 @@ export default function services() {
 
     const [currentImage, setCurrentImage] = useState('');
 
+    const [services, setServices] = useState<{
+        id: number;
+        acf: {
+            title: {[key: string] : string},
+            description: {[key: string] : string}
+        }
+    }[] | []>([]);
+    
+    useEffect(() => {
+        async function fetchServices() {
+            const ss = await getServices();
+            setServices(ss);
+        }
+        fetchServices();
+    }, []);
+
     if(!content) return;
-    const services = content.acf;
+    const servicesPage = content.acf;
     
     if (loading) return null;
     if (error) return <p>{error}</p>;
@@ -30,46 +47,27 @@ export default function services() {
         </div>}
 
         <Head
-            title={services[`title_${currentLocale}`]}
-            subtitle={services[`subtitle_${currentLocale}`]}
+            title={servicesPage[`title_${currentLocale}`]}
+            subtitle={servicesPage[`subtitle_${currentLocale}`]}
         />
 
         <div>
-            <ServiceCard
-                id='riuso_creativo'
-                title='Riuso creativo'
-                text='Cucire e riutilizzare è un atto collettivo e sovversivo: in questo laboratorio non solo potrai imparare  come cucire un pezzo in modo collaborativo, ma andremo anche a ritrovare una seconda vita ai materiali di scarto tessile. Scopri qui sotto alcune impressioni da laboratori passati che abbiamo fatto.'
-                tag={"publications"}
-                image='img/8166-116.jpg'
-                getImage={setCurrentImage}
-            />
-            <Tratteggio direction='horizontal' />
-            <ServiceCard
-                id='guerrilla_print'
-                title='Guerrilla print'
-                text='Cucire e riutilizzare è un atto collettivo e sovversivo: in questo laboratorio non solo potrai imparare  come cucire un pezzo in modo collaborativo, ma andremo anche a ritrovare una seconda vita.'
-                tag={"workshop"}
-                image='img/image_workshop_1.jpg'
-                getImage={setCurrentImage}
-            />
-            <Tratteggio direction='horizontal' />
-            <ServiceCard
-                id='ars_combinatoria'
-                title='Ars Combinatoria'
-                text='Laboratorio di grafica generativa per applicazioni decorative.'
-                tag={"workshop"}
-                image='img/8166-116.jpg'
-                getImage={setCurrentImage}
-            />
-            <Tratteggio direction='horizontal' />
-            <ServiceCard
-                id='nave_pirata'
-                title='Nave pirata'
-                text='Laboratorio di costruzione collaborativa di una bandiera.'
-                tag={"workshop"}
-                image='img/8166-116.jpg'
-                getImage={setCurrentImage}
-            />
+            {services.map((service, i) => {
+                const lastChild = (i + 1) === services.length;
+                return (
+                    <Fragment key={i}>
+                    <ServiceCard
+                        id='riuso_creativo'
+                        title={service.acf.title[`title_${currentLocale}`]}
+                        text={service.acf.description[`description_${currentLocale}`]}
+                        tag={"publications"}
+                        image='img/8166-116.jpg'
+                        getImage={setCurrentImage}
+                    />
+                    {!lastChild && <Tratteggio direction='horizontal' />}
+                    </Fragment>
+                )
+            })}
         </div>
 
     </main>

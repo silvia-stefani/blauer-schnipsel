@@ -79,3 +79,14 @@ export const getStatements = async () => {
     return 'No Category';  // Valor por defecto si ocurre un error
   }
 };
+
+// Función para obtener los services
+export const getServices = async () => {
+  try {
+    const response = await axios.get(`${apiURL}/services`);
+    return response.data;  // Devuelve el listado
+  } catch (error) {
+    console.error('Error fetching services:', error);
+    return 'No Category';  // Valor por defecto si ocurre un error
+  }
+};
