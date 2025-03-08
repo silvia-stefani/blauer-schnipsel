@@ -59,9 +59,9 @@ export const getCategory = async (categoryId: number, lang: string) => {
 };
 
 // Función para obtener la etiqueta (nombre) de una categoría por su ID
-export const getMenu = async (lang: string) => {
+export const getMenu = async () => {
   try {
-    const response = await axios.get(`${apiURL}/nav-menus/?location=menu_principal&lang=${lang}`);
+    const response = await axios.get(`${apiURL}/primary-menu`);
     return response.data;  // Devuelve el nombre de la categoría
   } catch (error) {
     console.error('Error fetching category label:', error);

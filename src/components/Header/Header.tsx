@@ -45,13 +45,11 @@ const Header: React.FunctionComponent<IHeaderProps> = (props) => {
 
     useEffect(() => {
         async function fetchMenuItems() {
-            const mi = await getMenu(currentLanguage);
+            const mi = await getMenu();            
             setMenuItems(mi);
         }
         fetchMenuItems();
     }, [currentLanguage]);
-    
-    if(!menuItems) return null;
     
     return <header className={`${styles.Header}`}>
         <div className={`${styles.menu} ${open ? styles.open : ''}`}>
@@ -61,9 +59,8 @@ const Header: React.FunctionComponent<IHeaderProps> = (props) => {
             <nav className={styles.navbar}>
                 {largeDevice && <ul className={styles.list}>
                     {menuItems.length > 0 && menuItems.map((mi) => {
-                        const slug = mi.url.replace(/-it|-p|-en|-de/g, '');
                         return <li className={`${styles.item}`} key={String(mi.id)}>
-                            <Link className={styles.link} href={`/${slug}`}>{mi.title}</Link>
+                            <Link className={styles.link} href={`/${mi.url}`}>{mi.title[currentLanguage]}</Link>
                         </li>
                         })}
                 </ul>}
