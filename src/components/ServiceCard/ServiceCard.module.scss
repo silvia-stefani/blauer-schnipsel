@@ -1,10 +1,12 @@
 .ServiceCard {
+    cursor: default;
     padding: 16px;
-    display: flex;
+    display: grid;
+    grid-template-columns: calc(100% / 4) 1fr calc(100% / 4);
     width: 100%;
     gap: 8px;
     .title {
-        width: calc(100% / 3);
+        width: 100%;
         font-weight: 600;
         text-transform: uppercase;
     }
@@ -17,18 +19,12 @@
             flex-grow: 1;
         }
     }
-    /* &:hover {
-        .container {
-            display: none;
-        }
-        .image {
-            display: block;
-            width: 100%;
-            img {
-                width: 100%;
-                height: 25vw;
-                object-fit: cover;
-            }
-        }
-    } */
+    .link {
+        display: flex;
+        justify-content: end;
+        align-items: start;
+    }
+    &:hover {
+        /* cursor: pointer; */
+    }
 }

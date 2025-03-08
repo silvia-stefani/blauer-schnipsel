@@ -1,16 +1,15 @@
 import * as React from 'react';
 import styles from './ServiceCard.module.scss';
-import useProjects from '@/hooks/useProjects';
-import { useRouter } from 'next/navigation';
 import { useArchive } from '@/contexts/ArchiveContext';
+import Button from '../Button/Button';
+import translations from '@/models/translations';
+import { useTranslation } from 'react-i18next';
 
 interface IServiceCardProps {
     id: string;
     title: string;
     text: string;
-    tag: string;
-    image: string;
-    getImage: (img: string) => void;
+    tag: number;
 }
 
 const ServiceCard: React.FunctionComponent<IServiceCardProps> = ({
@@ -18,34 +17,26 @@ const ServiceCard: React.FunctionComponent<IServiceCardProps> = ({
     title,
     text,
     tag,
-    image,
-    getImage,
 }) => {
   
+  const { i18n } = useTranslation();
+  const currentLocale = i18n.language as "en" | "it" | "de";
   const { switchCategory } = useArchive();
-  const router = useRouter();
-  
-  const handleMouseOver = () => {
-    getImage(image)
-  }
-
-  const handleMouseLeave = () => {
-    getImage('')
-  }
 
   const handleClick = () => {
     switchCategory(tag)
-    router.push("/archive")
   }
 
   return (
-    <a className={styles.ServiceCard} id={id} onClick={handleClick} onMouseOver={handleMouseOver} onMouseLeave={handleMouseLeave}>
+    <div className={styles.ServiceCard} id={id} onClick={handleClick}>
         <h6 className={styles.title}>{title}</h6>
         <div className={styles.container}>
             <div className={styles.text}>{text}</div>
         </div>
-        <div className={styles.link}>Leggi di più</div>
-    </a>
+        <div className={styles.link}>
+          <Button label={translations[currentLocale].readMore} type='primary' onPress={handleClick} url='archive' />
+        </div>
+    </div>
   )
 };
 

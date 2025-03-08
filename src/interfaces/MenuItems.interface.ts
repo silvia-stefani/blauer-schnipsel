@@ -1,5 +1,5 @@
 export interface MenuItemsI {
     id: number,
-    title: string,
+    title: {[key:string]: string},
     url: string,
 }

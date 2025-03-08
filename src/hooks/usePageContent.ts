@@ -1,15 +1,17 @@
 'use client'
 
+import { PageI } from "@/interfaces/PageI.interface";
 import { getPageContent } from "@/services/pages";
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+
 
 const usePageContent = (slug: string) => {
 
   const { i18n } = useTranslation();
   const lang = i18n.language;
   
-  const [content, setContent] = useState<{acf: {[key: string] : string}} | null>(null);
+  const [content, setContent] = useState<{acf: PageI} | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -17,7 +19,7 @@ const usePageContent = (slug: string) => {
     const fetchContent = async () => {
       try {
         setLoading(true);
-        const page = await getPageContent(`${slug}-${lang}`, lang);
+        const page = await getPageContent(`${slug}`, lang);
         setContent(page);
       } catch (err) {
         setError("Failed to load page content");

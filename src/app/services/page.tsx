@@ -3,27 +3,39 @@
 import Tratteggio from '@/components/Tratteggio/Tratteggio';
 import styles from './page.module.scss';
 import Head from '@/layout/Head/Head';
-import Grid from '@/layout/Grid/Grid';
 import usePageContent from '@/hooks/usePageContent';
 import { useTranslation } from 'react-i18next';
 import ServiceCard from '@/components/ServiceCard/ServiceCard';
 import { Fragment, useEffect, useState } from 'react';
 import { getServices } from '@/services/api';
+import useMousePosition from '@/hooks/useMousePosition';
+import { PageI } from '@/interfaces/PageI.interface';
+
+interface ServicesPageI extends PageI {
+    link: {
+        text: {[key: string]: string},
+        url: string,
+    }
+}
 
 export default function services() {
 
     const { i18n } = useTranslation();
     const currentLocale = i18n.language;
     const { content, loading, error } = usePageContent('services');
+    const { x, y } = useMousePosition();
 
     const [currentImage, setCurrentImage] = useState('');
+    const [showImage, setShowImage] = useState(false);
 
     const [services, setServices] = useState<{
         id: number;
         acf: {
-            title: {[key: string] : string},
-            description: {[key: string] : string}
-        }
+            image: string;
+            title: {[key: string]: string};
+            description: {[key: string]: string};
+            tag: number;
+        };
     }[] | []>([]);
     
     useEffect(() => {
@@ -34,36 +46,44 @@ export default function services() {
         fetchServices();
     }, []);
 
+    const handleMouseOver = (image: string) => {
+        setShowImage(true);
+        setCurrentImage(image);
+    }
+
     if(!content) return;
-    const servicesPage = content.acf;
+    const servicesPage = content.acf as ServicesPageI;
     
     if (loading) return null;
     if (error) return <p>{error}</p>;
 
     return <main className={styles.services}>
 
-        {currentImage && <div className={styles.currentImage}>
-            <img src={currentImage} alt="" />
-        </div>}
-
         <Head
-            title={servicesPage[`title_${currentLocale}`]}
-            subtitle={servicesPage[`subtitle_${currentLocale}`]}
+            title={servicesPage.title[currentLocale]}
+            subtitle={<Fragment>{servicesPage.subtitle[currentLocale]} <a target='_blank' href={`mailto:${servicesPage.link.url}`}>{servicesPage.link.text[currentLocale]}</a></Fragment>}
+            direction='row'
         />
 
-        <div>
+        { showImage && <div className={styles.currentImage} style={{left: x - 320, top: y - 85}}>
+            <img src={currentImage} alt="" /> 
+        </div> }
+
+        <div onMouseLeave={() => setShowImage(false)}>
             {services.map((service, i) => {
                 const lastChild = (i + 1) === services.length;
+                console.log(service);
+                
                 return (
                     <Fragment key={i}>
-                    <ServiceCard
-                        id='riuso_creativo'
-                        title={service.acf.title[`title_${currentLocale}`]}
-                        text={service.acf.description[`description_${currentLocale}`]}
-                        tag={"publications"}
-                        image='img/8166-116.jpg'
-                        getImage={setCurrentImage}
-                    />
+                        <div onMouseEnter={() => handleMouseOver(service.acf.image)}>
+                            <ServiceCard
+                                id={String(service.id)}
+                                title={service.acf.title[`title_${currentLocale}`]}
+                                text={service.acf.description[`description_${currentLocale}`]}
+                                tag={service.acf.tag}
+                            />
+                        </div>
                     {!lastChild && <Tratteggio direction='horizontal' />}
                     </Fragment>
                 )
