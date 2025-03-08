@@ -13,7 +13,9 @@ export default function manifest() {
 
     const [statements, setStatements] = useState<{
         id: number;
-        acf: {[key: string] : string}
+        acf: {
+            text: {[key: string] : string}
+        }
     }[] | []>([]);
     
     useEffect(() => {
@@ -31,7 +33,7 @@ export default function manifest() {
             const lastChild = (i + 1) === statements.length;
             return (
                 <li key={i} className={styles.item}>
-                    <span className={styles.text}>{statement.acf[`text_${currentLanguage}`]}</span>
+                    <span className={styles.text}>{statement.acf.text[`text_${currentLanguage}`]}</span>
                     {!lastChild && <Tratteggio direction='horizontal' />}
                 </li>
             )
