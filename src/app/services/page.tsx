@@ -3,73 +3,91 @@
 import Tratteggio from '@/components/Tratteggio/Tratteggio';
 import styles from './page.module.scss';
 import Head from '@/layout/Head/Head';
-import Grid from '@/layout/Grid/Grid';
 import usePageContent from '@/hooks/usePageContent';
 import { useTranslation } from 'react-i18next';
 import ServiceCard from '@/components/ServiceCard/ServiceCard';
-import { useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
+import { getServices } from '@/services/api';
+import useMousePosition from '@/hooks/useMousePosition';
+import { PageI } from '@/interfaces/PageI.interface';
+
+interface ServicesPageI extends PageI {
+    link: {
+        text: {[key: string]: string},
+        url: string,
+    }
+}
 
 export default function services() {
 
     const { i18n } = useTranslation();
     const currentLocale = i18n.language;
     const { content, loading, error } = usePageContent('services');
+    const { x, y } = useMousePosition();
 
     const [currentImage, setCurrentImage] = useState('');
+    const [showImage, setShowImage] = useState(false);
+
+    const [services, setServices] = useState<{
+        id: number;
+        acf: {
+            image: string;
+            title: {[key: string]: string};
+            description: {[key: string]: string};
+            tag: number;
+        };
+    }[] | []>([]);
+    
+    useEffect(() => {
+        async function fetchServices() {
+            const ss = await getServices();
+            setServices(ss);
+        }
+        fetchServices();
+    }, []);
+
+    const handleMouseOver = (image: string) => {
+        setShowImage(true);
+        setCurrentImage(image);
+    }
 
     if(!content) return;
-    const services = content.acf;
+    const servicesPage = content.acf as ServicesPageI;
     
     if (loading) return null;
     if (error) return <p>{error}</p>;
 
     return <main className={styles.services}>
 
-        {currentImage && <div className={styles.currentImage}>
-            <img src={currentImage} alt="" />
-        </div>}
-
         <Head
-            title={services[`title_${currentLocale}`]}
-            subtitle={services[`subtitle_${currentLocale}`]}
+            title={servicesPage.title[currentLocale]}
+            subtitle={<Fragment>{servicesPage.subtitle[currentLocale]} <a target='_blank' href={`mailto:${servicesPage.link.url}`}>{servicesPage.link.text[currentLocale]}</a></Fragment>}
+            direction='row'
         />
 
-        <div>
-            <ServiceCard
-                id='riuso_creativo'
-                title='Riuso creativo'
-                text='Cucire e riutilizzare è un atto collettivo e sovversivo: in questo laboratorio non solo potrai imparare  come cucire un pezzo in modo collaborativo, ma andremo anche a ritrovare una seconda vita ai materiali di scarto tessile. Scopri qui sotto alcune impressioni da laboratori passati che abbiamo fatto.'
-                tag={"publications"}
-                image='img/8166-116.jpg'
-                getImage={setCurrentImage}
-            />
-            <Tratteggio direction='horizontal' />
-            <ServiceCard
-                id='guerrilla_print'
-                title='Guerrilla print'
-                text='Cucire e riutilizzare è un atto collettivo e sovversivo: in questo laboratorio non solo potrai imparare  come cucire un pezzo in modo collaborativo, ma andremo anche a ritrovare una seconda vita.'
-                tag={"workshop"}
-                image='img/image_workshop_1.jpg'
-                getImage={setCurrentImage}
-            />
-            <Tratteggio direction='horizontal' />
-            <ServiceCard
-                id='ars_combinatoria'
-                title='Ars Combinatoria'
-                text='Laboratorio di grafica generativa per applicazioni decorative.'
-                tag={"workshop"}
-                image='img/8166-116.jpg'
-                getImage={setCurrentImage}
-            />
-            <Tratteggio direction='horizontal' />
-            <ServiceCard
-                id='nave_pirata'
-                title='Nave pirata'
-                text='Laboratorio di costruzione collaborativa di una bandiera.'
-                tag={"workshop"}
-                image='img/8166-116.jpg'
-                getImage={setCurrentImage}
-            />
+        { showImage && <div className={styles.currentImage} style={{left: x - 320, top: y - 85}}>
+            <img src={currentImage} alt="" /> 
+        </div> }
+
+        <div onMouseLeave={() => setShowImage(false)}>
+            {services.map((service, i) => {
+                const lastChild = (i + 1) === services.length;
+                console.log(service);
+                
+                return (
+                    <Fragment key={i}>
+                        <div onMouseEnter={() => handleMouseOver(service.acf.image)}>
+                            <ServiceCard
+                                id={String(service.id)}
+                                title={service.acf.title[`title_${currentLocale}`]}
+                                text={service.acf.description[`description_${currentLocale}`]}
+                                tag={service.acf.tag}
+                            />
+                        </div>
+                    {!lastChild && <Tratteggio direction='horizontal' />}
+                    </Fragment>
+                )
+            })}
         </div>
 
     </main>

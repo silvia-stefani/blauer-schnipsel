@@ -59,12 +59,75 @@ export const getCategory = async (categoryId: number, lang: string) => {
 };
 
 // Función para obtener la etiqueta (nombre) de una categoría por su ID
-export const getMenu = async (lang: string) => {
+export const getMenu = async () => {
   try {
-    const response = await axios.get(`${apiURL}/nav-menus/?location=menu_principal&lang=${lang}`);
+    const response = await axios.get(`${apiURL}/primary-menu`);
     return response.data;  // Devuelve el nombre de la categoría
   } catch (error) {
     console.error('Error fetching category label:', error);
+    return 'No Category';  // Valor por defecto si ocurre un error
+  }
+};
+
+// Función para obtener los statements
+export const getStatements = async () => {
+  try {
+    const response = await axios.get(`${apiURL}/statements`);
+    return response.data;  // Devuelve el listado
+  } catch (error) {
+    console.error('Error fetching statements:', error);
+    return 'No Category';  // Valor por defecto si ocurre un error
+  }
+};
+
+// Función para obtener los services
+export const getServices = async () => {
+  try {
+    const response = await axios.get(`${apiURL}/services`);
+    return response.data;  // Devuelve el listado
+  } catch (error) {
+    console.error('Error fetching services:', error);
+    return 'No Category';  // Valor por defecto si ocurre un error
+  }
+};
+
+// Función para obtener los miembros del equipo
+export const getTeam = async () => {
+  try {
+    const response = await axios.get(`${apiURL}/team?orderby=title&order=asc`);
+    return response.data;  // Devuelve el listado
+  } catch (error) {
+    console.error('Error fetching services:', error);
+    return 'No Category';  // Valor por defecto si ocurre un error
+  }
+};
+
+export const getContacts = async () => {
+  try {
+    const response = await axios.get(`${apiURL}/contact`);
+    return response.data;  // Devuelve el listado
+  } catch (error) {
+    console.error('Error fetching services:', error);
+    return 'No Category';  // Valor por defecto si ocurre un error
+  }
+};
+
+export const getCurriculumCategories = async () => {
+  try {
+    const response = await axios.get(`${apiURL}/curriculum_category`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching services:', error);
+    return 'No Category';  // Valor por defecto si ocurre un error
+  }
+};
+
+export const getCurriculum = async () => {
+  try {
+    const response = await axios.get(`${apiURL}/curriculum`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching services:', error);
     return 'No Category';  // Valor por defecto si ocurre un error
   }
 };
