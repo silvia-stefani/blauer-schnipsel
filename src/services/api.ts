@@ -90,3 +90,44 @@ export const getServices = async () => {
     return 'No Category';  // Valor por defecto si ocurre un error
   }
 };
+
+// Función para obtener los miembros del equipo
+export const getTeam = async () => {
+  try {
+    const response = await axios.get(`${apiURL}/team?orderby=title&order=asc`);
+    return response.data;  // Devuelve el listado
+  } catch (error) {
+    console.error('Error fetching services:', error);
+    return 'No Category';  // Valor por defecto si ocurre un error
+  }
+};
+
+export const getContacts = async () => {
+  try {
+    const response = await axios.get(`${apiURL}/contact`);
+    return response.data;  // Devuelve el listado
+  } catch (error) {
+    console.error('Error fetching services:', error);
+    return 'No Category';  // Valor por defecto si ocurre un error
+  }
+};
+
+export const getCurriculumCategories = async () => {
+  try {
+    const response = await axios.get(`${apiURL}/curriculum_category`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching services:', error);
+    return 'No Category';  // Valor por defecto si ocurre un error
+  }
+};
+
+export const getCurriculum = async () => {
+  try {
+    const response = await axios.get(`${apiURL}/curriculum`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching services:', error);
+    return 'No Category';  // Valor por defecto si ocurre un error
+  }
+};

@@ -12,14 +12,16 @@ const Grid: React.FunctionComponent<IGridProps> = ({
     cols,
     children,
 }) => {
+    const flatChildren = children.flat();
     // Calculamos automáticamente las filas si no se proporcionan
-    const totalElements = children.length;
+    const totalElements = flatChildren.length;
     const autoRows = Math.ceil(totalElements / cols);
 
     // Agrupamos los elementos en filas
     const rows = Array.from({ length: autoRows }, (_, rowIndex) => {
-        return children.slice(rowIndex * cols, (rowIndex + 1) * cols);
+        return flatChildren.slice(rowIndex * cols, (rowIndex + 1) * cols);
     });
+    
 
     return (
         <div className={styles.Grid}>

@@ -19,13 +19,38 @@
             display: flex;
             flex-direction: column;
             gap: 32px;
-            .block {
+            .title {
+                font-size: 16px;
+                font-weight: 600;
+                text-transform: uppercase;
+                
+            }
+
+            .group {
                 width: 100%;
                 display: flex;
                 flex-direction: column;
                 gap: 16px;
                 .title {
-                    font-weight: 600;
+                    text-transform: none;
+                }
+            }
+            .block {
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                gap: 4px;
+                h6.title {
+                    text-transform: none;
+                }
+            }
+            .year {
+                padding-bottom: 4px;
+            }
+            .text {
+                /* padding-left: 8px; */
+                &:not(:last-child) {
+                    padding-bottom: 2px;
                 }
             }
         }
@@ -33,6 +58,7 @@
 
     .member {
         width: 100%;
+        max-width: 250px;
         display: flex;
         flex-direction: column;
         gap: 4px;
