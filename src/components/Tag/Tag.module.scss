@@ -1,0 +1,24 @@
+@use '/src/assets/sass/lib/vars' as *;
+
+.Tag {
+    max-width: 100%;
+    padding: 4px 8px;
+    font-size: 14px;
+    text-transform: uppercase;
+
+    &.primary {
+        color: $light;
+        background-color: $primary;
+    }
+
+    &.shade {
+        color: $primary;
+        background-color: rgba($primary, 0.1);
+    }
+
+    &.white {
+        color: $primary;
+        background-color: $white;
+    }
+
+}

@@ -6,6 +6,7 @@ import ArchiveMini from '@/components/ArchiveMini/ArchiveMini';
 import useProjects from '@/hooks/useProjects';
 import { useArchive } from '@/contexts/ArchiveContext';
 import { useTranslation } from 'react-i18next';
+import Tag from '@/components/Tag/Tag';
 
 export default function archive() {
     
@@ -27,19 +28,14 @@ export default function archive() {
                 subtitle="Alcuni progetti che rispecchiano la nostra filosofia nelle sue molteplici sfaccettature."
             >
             <div className={styles.filters}>
-                <div onClick={() => switchCategory()}
-                    className={`${styles.cat} ${!currentCategory ? styles.current : ''}`}>
-                        Tutto
-                </div>
+                <button onClick={() => switchCategory()}>
+                    <Tag id='all' label='Tutto' style={!currentCategory ? 'primary' : 'white'} />
+                </button>
                 {categories.map((cat) => {
                     const isCurrent = cat.id === currentCategory?.id;
-                    return <div 
-                    key={cat.id} 
-                    id={String(cat.id)}
-                    onClick={() => switchCategory(cat.id)}
-                    className={`${styles.cat} ${isCurrent ? styles.current : ''}`}>
-                        {cat.name[currentLocale]}
-                    </div>
+                    return <button key={cat.id} onClick={() => switchCategory(cat.id)}>
+                        <Tag id={String(cat.id)} label={cat.name[currentLocale]} style={isCurrent ? 'primary' : 'white'} />
+                    </button>
                 })}
             </div>
                 

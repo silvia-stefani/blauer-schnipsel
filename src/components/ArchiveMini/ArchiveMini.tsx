@@ -3,6 +3,7 @@ import styles from './ArchiveMini.module.scss';
 import { ProjectI } from '@/hooks/useProjects';
 import Button from '../Button/Button';
 import i18n from '@/i18n';
+import Tag from '../Tag/Tag';
 
 interface IArchiveMiniProps extends ProjectI {};
 
@@ -30,7 +31,7 @@ const ArchiveMini: React.FunctionComponent<IArchiveMiniProps> = ({
         </div>
 
         <div className={styles.tags}>
-            {tags.map((tag) => <div key={tag.id} className={styles.tag}>{tag.name[currentLanguage]}</div>)}
+            {tags.map((tag) => <Tag key={tag.id} id={String(tag.id)} label={tag.name[currentLanguage]} style='shade' />)}
         </div>
 
         {can_book && <Button label='Segnati' type='primary' url='' />}
