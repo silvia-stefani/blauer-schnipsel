@@ -7,11 +7,13 @@ import useProjects from '@/hooks/useProjects';
 import { useArchive } from '@/contexts/ArchiveContext';
 import { useTranslation } from 'react-i18next';
 import Tag from '@/components/Tag/Tag';
+import usePageContent from '@/hooks/usePageContent';
 
 export default function archive() {
     
     const { i18n } = useTranslation();
     const currentLocale = i18n.language;
+    const { content} = usePageContent('archive');
     const { projects, loading, error } = useProjects();
     const { currentCategory, categories, switchCategory } = useArchive();
     
@@ -22,10 +24,10 @@ export default function archive() {
 
     return <main className={styles.archive}>
 
-        <div className={styles.head}>
+        { content && <div className={styles.head}>
             <Head 
-                title="Archivio Progetti"
-                subtitle="Alcuni progetti che rispecchiano la nostra filosofia nelle sue molteplici sfaccettature."
+                title={content.acf.title[i18n.language]}
+                subtitle={content.acf.subtitle[i18n.language]}
             >
             <div className={styles.filters}>
                 <button onClick={() => switchCategory()}>
@@ -40,9 +42,9 @@ export default function archive() {
             </div>
                 
             </Head>
-        </div>
+        </div> }
 
-        {!loading && <Grid cols={4}>
+        {!loading && <Grid cols={{xs: 1, sm: 1, md: 3, lg: 4}}>
             {filteredProjects && filteredProjects.map((ap) => {
                 return <ArchiveMini key={ap.id} {...ap} />
             })}

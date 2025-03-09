@@ -14,25 +14,14 @@ export const getProjects = async () => {
   }
 };
 
-// Función para obtener los proyectos
-export const getProject = async (projectId: number) => {
+// Ottenere un porgetto
+export const getProject = async (projectId: string) => {
   try {
-    const response = await axios.get(`${apiURL}/project/${projectId}`);
-    return response.data; // Ahora incluirá el campo "translations"
+    const response = await axios.get(`${apiURL}/projects?slug=${projectId}`);
+    return response.data[0];
   } catch (error) {
     console.error("Error fetching project details:", error);
     return null;
-  }
-};
-
-// Función para obtener los detalles de un proyecto usando ACF
-export const getProjectDetails = async (projectId: number, lang: string) => {
-  try {
-    const response = await axios.get(`${apiURL}/project/${projectId}?acf_format=standard?lang=${lang}`);
-    return response.data; // Devuelve los detalles del proyecto
-  } catch (error) {
-    console.error('Error fetching project details:', error);
-    return null; // Devuelve null en caso de error
   }
 };
 
@@ -45,17 +34,6 @@ export const getProjectCategories = async (id?: string) => {
       console.error('Error fetching category label:', error);
       return 'No Category';  // Valor por defecto si ocurre un error
     }
-};
-
-// Función para obtener la etiqueta (nombre) de una categoría por su ID
-export const getCategory = async (categoryId: number, lang: string) => {
-  try {
-    const response = await axios.get(`${apiURL}/project_tag/${categoryId}?lang=${lang}`);
-    return response.data;  // Devuelve el nombre de la categoría
-  } catch (error) {
-    console.error('Error fetching category label:', error);
-    return 'No Category';  // Valor por defecto si ocurre un error
-  }
 };
 
 // Función para obtener la etiqueta (nombre) de una categoría por su ID
@@ -124,7 +102,37 @@ export const getCurriculumCategories = async () => {
 
 export const getCurriculum = async () => {
   try {
-    const response = await axios.get(`${apiURL}/curriculum`);
+    const response = await axios.get(`${apiURL}/curriculum?per_page=100`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching services:', error);
+    return 'No Category';  // Valor por defecto si ocurre un error
+  }
+};
+
+export const getIntroTexts = async () => {
+  try {
+    const response = await axios.get(`${apiURL}/intro_text?per_page=100`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching services:', error);
+    return 'No Category';  // Valor por defecto si ocurre un error
+  }
+};
+
+export const getIntroTextGroup = async (id?: number) => {
+  try {
+    const response = await axios.get(`${apiURL}/intro_group/${id ? id : ''}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching services:', error);
+    return 'No Category';  // Valor por defecto si ocurre un error
+  }
+};
+
+export const getProjectEvents = async () => {
+  try {
+    const response = await axios.get(`${apiURL}/projects?project_category=138&project_category=139`);
     return response.data;
   } catch (error) {
     console.error('Error fetching services:', error);

@@ -58,3 +58,8 @@ a[target="_blank"] {
         text-decoration: underline;
     }
 }
+
+a:hover, 
+button:hover {
+    opacity: 0.8;
+}

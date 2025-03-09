@@ -2,7 +2,6 @@ import * as React from 'react';
 import styles from './ServiceCard.module.scss';
 import { useArchive } from '@/contexts/ArchiveContext';
 import Button from '../Button/Button';
-import translations from '@/models/translations';
 import { useTranslation } from 'react-i18next';
 
 interface IServiceCardProps {
@@ -19,9 +18,8 @@ const ServiceCard: React.FunctionComponent<IServiceCardProps> = ({
     tag,
 }) => {
   
-  const { i18n } = useTranslation();
-  const currentLocale = i18n.language as "en" | "it" | "de";
   const { switchCategory } = useArchive();
+  const { t } = useTranslation();  
 
   const handleClick = () => {
     switchCategory(tag)
@@ -34,7 +32,7 @@ const ServiceCard: React.FunctionComponent<IServiceCardProps> = ({
             <div className={styles.text}>{text}</div>
         </div>
         <div className={styles.link}>
-          <Button label={translations[currentLocale].readMore} type='primary' onPress={handleClick} url='archive' />
+          <Button label={t("readMore")} type='primary' onPress={handleClick} url='archive' />
         </div>
     </div>
   )

@@ -1,54 +1,25 @@
 @import '@/assets/sass/lib/vars';
 
-@keyframes scroll {
-    from {
-      transform: translateX(0); /* Comienza en su posición original */
-    }
-    to {
-      transform: translateX(-100%); /* Se desplaza hacia la izquierda completamente */
-    }
-  }
-
 .EventCard {
     .container {
         width: 100%;
         display: flex;
         flex-direction: column;
-        .marqueeWrapper {
-            position: relative;
-            overflow: hidden; /* Ocultamos el contenido fuera del contenedor */
-            width: 100%;
-            .marquee {
-                width: 100%;
-                display: flex;
-                animation: scroll 10s linear infinite; /* Desplazamiento infinito */
-                gap: 8px; /* Espaciado entre palabras */
-                padding-top: 16px;
-                span {
-                    white-space: nowrap; /* Evita que el texto salte de línea */
-                    text-transform: uppercase;
-                    display: flex;
-                    align-items: center;
-                    gap: 8px;
-                    &:not(:first-child)::after {
-                        content: "";
-                        display: block;
-                        width: 4px;
-                        height: 4px;
-                        background-color: $light;
-                        border-radius: 50%;
-                    }
-                }
-            }
-        }
     
         .content {
+            width: 100%;
             display: flex;
             flex-direction: column;
             padding: 16px;
             gap: 16px;
             .head {
-                .title {}
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+                .title {
+                    font-weight: 600;
+                }
                 .info {}
             }
             .image {

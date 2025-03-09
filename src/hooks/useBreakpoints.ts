@@ -1,7 +1,9 @@
+import breakpoints from '@/models/breakpoints';
 import { useState, useEffect } from 'react';
 
-type Breakpoint = 'small' | 'medium' | 'large';
+type Breakpoint = keyof typeof breakpoints;
 interface BreakPointsI {
+  xsDevice: boolean;
   smallDevice: boolean;
   mediumDevice: boolean;
   largeDevice: boolean;
@@ -9,51 +11,35 @@ interface BreakPointsI {
 }
 
 const useBreakpoints = (): BreakPointsI => {
-  const [category, setCategory] = useState<Breakpoint>('large');
+  const [category, setCategory] = useState<Breakpoint>('lg');
   const [isTouchable, setIsTouchable] = useState<boolean>(false);
+  const [width, setWidth] = useState<number>(window.innerWidth);
 
   useEffect(() => {
     const handleResize = () => {
       const width = window.innerWidth;
-      if (width <= 768) {
-        setCategory('small');
-      } else if (width <= 1024) {
-        setCategory('medium');
-      } else {
-        setCategory('large');
-      }
+      setWidth(width)
     };
 
     // Initial calculation
     handleResize();
 
     window.addEventListener('resize', handleResize);
-
     return () => {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
 
   useEffect(() => {
-    function isTouchDevice() {
-      if (('ontouchstart' in window) || (navigator.maxTouchPoints > 0)) {
-        setIsTouchable(true)
-      } else {
-        setIsTouchable(false)
-      }
-    }
-    isTouchDevice()
+    setIsTouchable(('ontouchstart' in window) || (navigator.maxTouchPoints > 0));
   }, [category]);
 
-  const smallDevice = category === 'small';
-  const mediumDevice = category === 'medium';
-  const largeDevice = category === 'large';
-
   return {
-    smallDevice,
-    mediumDevice,
-    largeDevice,
-    isTouchable
+    xsDevice: width <= breakpoints.xs,
+    smallDevice: width <= breakpoints.sm,
+    mediumDevice: width <= breakpoints.md,
+    largeDevice: width > breakpoints.md,
+    isTouchable,
   };
 };
 

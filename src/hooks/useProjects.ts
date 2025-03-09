@@ -1,9 +1,21 @@
 import { useState, useEffect } from 'react';
-import { getProjects, getCategory } from '@/services/api';
-import { useTranslation } from 'react-i18next';
+import { getProjects } from '@/services/api';
 import { useArchive } from '@/contexts/ArchiveContext';
 
 // Este hook maneja la obtención de proyectos y categorías.
+
+export interface TaxonomyI {
+    term_id: number;
+    name: string;
+    slug: string;
+    term_group: number;
+    term_taxonomy_id: number;
+    taxonomy: string;
+    description: string;
+    parent: number;
+    count: number;
+    filter: string;
+}
 
 export interface ProjectIResponse {
     id: number;
@@ -16,7 +28,11 @@ export interface ProjectIResponse {
     image_gallery: string[] | [];
     acf: {
         title: {[key: string]: string};
-        date: string;
+        date: {
+            end: string;
+            start: string;
+            year: TaxonomyI;
+        };
         location: string;
         cover_image: string;
         sign_up: boolean;
@@ -29,7 +45,11 @@ export interface ProjectI {
     id: number;
     tags: ArchiveCategoryI[];
     title: {[key: string]: string};
-    date: string;
+    date: {
+        end: string;
+        start: string;
+        year: TaxonomyI;
+    };
     location: string;
     image: string;
     can_book: boolean;

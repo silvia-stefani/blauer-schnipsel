@@ -33,7 +33,9 @@ const Tratteggio: React.FunctionComponent<ITratteggioProps> = ({
         };
 
         // Llamamos a la función de actualización al montar el componente
-        updateSize();
+        setTimeout(() => {
+            updateSize();
+        }, 100);
 
         // Agregar un listener para cambios en el tamaño
         window.addEventListener('resize', updateSize);

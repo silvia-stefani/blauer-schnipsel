@@ -55,4 +55,8 @@
             background-color: $primary;
         }
     }
+
+    @media (max-width: 768px) {
+        overflow-y: auto;
+    }
 }

@@ -1,15 +1,18 @@
 const translations = {
+    it: {
+        readMore: "Leggi di più",
+        readLess: "Leggi di meno",
+        exploreMore: "Scopri di più",
+    },
     en: {
         readMore: "Read more",
-        welcomeMessage: "Welcome to our website!",
+        readLess: "Read less",
+        exploreMore: "Learn more",
     },
     de: {
         readMore: "Mehr lesen",
-        welcomeMessage: "Willkommen auf unserer Webseite!",
-    },
-    it: {
-        readMore: "Leggi di più",
-        welcomeMessage: "Benvenuti nel nostro sito web!",
+        readLess: "Weniger lesen",
+        exploreMore: "Mehr erfahren",
     },
 };
 

@@ -1,6 +1,6 @@
 .ServiceCard {
     cursor: default;
-    padding: 16px;
+    padding: 24px 16px;
     display: grid;
     grid-template-columns: calc(100% / 4) 1fr calc(100% / 4);
     width: 100%;
@@ -24,7 +24,11 @@
         justify-content: end;
         align-items: start;
     }
-    &:hover {
-        /* cursor: pointer; */
+    @media (max-width: 768px) {
+        grid-template-columns: 1fr;
+        gap: 24px;
+        .link {
+            justify-content: start;
+        }
     }
 }
