@@ -1,8 +1,8 @@
 const apiURL = "http://blauerschnipsel.local/wp-json/wp/v2";
 
-export const getPageContent = async (slug: string, lang: string) => {
+export const getPageContent = async (slug: string) => {
     try {
-      const res = await fetch(`${apiURL}/pages?slug=${slug}&lang=${lang}`);
+      const res = await fetch(`${apiURL}/pages?slug=${slug}`);
       if (!res.ok) throw new Error("Failed to fetch page content");
       const pages = await res.json();
       return pages[0]; // El primer resultado debería ser la página que buscamos

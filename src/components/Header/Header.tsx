@@ -12,7 +12,6 @@ import { useTratteggio } from '@/contexts/TratteggioContext';
 import { bs1 } from '@/models/formine';
 import { getMenu } from '@/services/api';
 import { MenuItemsI } from '@/interfaces/MenuItems.interface';
-import { createPortal } from 'react-dom';
 
 interface IHeaderProps {
 }

@@ -3,13 +3,8 @@
 import { PageI } from "@/interfaces/PageI.interface";
 import { getPageContent } from "@/services/pages";
 import { useState, useEffect } from "react";
-import { useTranslation } from "react-i18next";
-
 
 const usePageContent = (slug: string) => {
-
-  const { i18n } = useTranslation();
-  const lang = i18n.language;
   
   const [content, setContent] = useState<{acf: PageI} | null>(null);
   const [loading, setLoading] = useState(true);
@@ -19,7 +14,7 @@ const usePageContent = (slug: string) => {
     const fetchContent = async () => {
       try {
         setLoading(true);
-        const page = await getPageContent(`${slug}`, lang);
+        const page = await getPageContent(slug);
         setContent(page);
       } catch (err) {
         setError("Failed to load page content");
@@ -29,7 +24,7 @@ const usePageContent = (slug: string) => {
     };
 
     fetchContent();
-  }, [slug, lang]);
+  }, [slug]);
 
   return { content, loading, error };
 };
