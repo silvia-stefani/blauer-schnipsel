@@ -4,9 +4,9 @@ import axios from 'axios';
 const apiURL = "http://blauerschnipsel.local/wp-json/wp/v2";
 
 // Función para obtener los proyectos
-export const getProjects = async (lang: string) => {
+export const getProjects = async () => {
   try {
-    const response = await axios.get(`${apiURL}/project?lang=${lang}`);
+    const response = await axios.get(`${apiURL}/projects`);
     return response.data; // Devuelve la lista de proyectos
   } catch (error) {
     console.error('Error fetching projects:', error);
@@ -37,9 +37,9 @@ export const getProjectDetails = async (projectId: number, lang: string) => {
 };
 
 // Función para obtener las categorías de proyectos
-export const getCategories = async (lang: string) => {
+export const getProjectCategories = async (id?: string) => {
     try {
-      const response = await axios.get(`${apiURL}/project_tag?lang=${lang}`);
+      const response = await axios.get(`${apiURL}/project_category/${id ? id : ''}`);
       return response.data;  // Devuelve las categorías
     } catch (error) {
       console.error('Error fetching category label:', error);

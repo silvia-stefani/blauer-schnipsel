@@ -1,6 +1,6 @@
 'use client'
 
-import { getCategories } from '@/services/api';
+import { getProjectCategories } from '@/services/api';
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -8,7 +8,9 @@ import { useTranslation } from 'react-i18next';
 interface ArchiveContextType {
     currentCategory: ArchiveCategoryI | null;
     categories: ArchiveCategoryI[];
-    switchCategory: (id?: string) => void;
+    switchCategory: (id?: number) => void;
+    loading: boolean;
+    error: string;
 }
 
 // Creamos el contexto con un valor inicial vacío
@@ -21,15 +23,13 @@ interface ArchiveProviderProps {
 
 export const ArchiveProvider: React.FC<ArchiveProviderProps> = ({ children }) => {
 
-    const { i18n } = useTranslation();
-    const lang = i18n.language;
-
+    
     // Categories (project_categories)
     const [categories, setCategories] = useState<ArchiveCategoryI[]>([]);
     const [currentCategory, setCurrentCategory] = useState<ArchiveCategoryI | null>(null);
 
     const [loading, setLoading] = useState<boolean>(true);
-    const [error, setError] = useState<string | null>(null);
+    const [error, setError] = useState<string>('');
 
     useEffect(() => {
         const fetchData = async () => {
@@ -37,13 +37,11 @@ export const ArchiveProvider: React.FC<ArchiveProviderProps> = ({ children }) =>
                 setLoading(true);
 
                 // Fetch categories
-                const categoriesData = await getCategories(lang);
+                const categoriesData = await getProjectCategories();
                 const c: ArchiveCategoryI[] = categoriesData.map((cd: any) => {
                     return {
                         id: cd.id,
-                        name: cd.name,
-                        slug_lang: cd.slug,
-                        slug_common: cd.acf.Tag_ID,
+                        name: cd.acf.label,
                     }
                 })
                 setCategories(c);
@@ -56,11 +54,11 @@ export const ArchiveProvider: React.FC<ArchiveProviderProps> = ({ children }) =>
             }
         };
         fetchData();
-    }, [lang, currentCategory]);  // Se ejecuta una sola vez cuando el componente se monta
+    }, [currentCategory]);  // Se ejecuta una sola vez cuando el componente se monta
 
-    const switchCategory = (id?: string) => {
+    const switchCategory = (id?: number) => {
         if (id) {
-            const current = categories.find((cat) => cat.slug_common === id);
+            const current = categories.find((cat) => cat.id === id);
             if (current) setCurrentCategory(current);
         } else {
             setCurrentCategory(null)
@@ -68,7 +66,7 @@ export const ArchiveProvider: React.FC<ArchiveProviderProps> = ({ children }) =>
     }
 
     return (
-        <ArchiveContext.Provider value={{ currentCategory, categories, switchCategory }}>
+        <ArchiveContext.Provider value={{ currentCategory, categories, switchCategory, loading, error }}>
             {children}
         </ArchiveContext.Provider>
     );

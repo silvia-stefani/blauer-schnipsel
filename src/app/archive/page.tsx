@@ -5,15 +5,19 @@ import Grid from '@/layout/Grid/Grid';
 import ArchiveMini from '@/components/ArchiveMini/ArchiveMini';
 import useProjects from '@/hooks/useProjects';
 import { useArchive } from '@/contexts/ArchiveContext';
+import { useTranslation } from 'react-i18next';
 
 export default function archive() {
     
+    const { i18n } = useTranslation();
+    const currentLocale = i18n.language;
     const { projects, loading, error } = useProjects();
     const { currentCategory, categories, switchCategory } = useArchive();
     
     if (error) {
       return <p>{error}</p>;
     }
+    const filteredProjects = currentCategory ? projects.filter(item => item.tags.some(tag => tag.id === currentCategory?.id)) : projects;
 
     return <main className={styles.archive}>
 
@@ -28,12 +32,13 @@ export default function archive() {
                         Tutto
                 </div>
                 {categories.map((cat) => {
-                    const isCurrent = cat.slug_common === currentCategory?.slug_common;
+                    const isCurrent = cat.id === currentCategory?.id;
                     return <div 
                     key={cat.id} 
-                    onClick={() => switchCategory(cat.slug_common)}
+                    id={String(cat.id)}
+                    onClick={() => switchCategory(cat.id)}
                     className={`${styles.cat} ${isCurrent ? styles.current : ''}`}>
-                        {cat.name}
+                        {cat.name[currentLocale]}
                     </div>
                 })}
             </div>
@@ -42,7 +47,7 @@ export default function archive() {
         </div>
 
         {!loading && <Grid cols={4}>
-            {projects.map((ap) => {
+            {filteredProjects && filteredProjects.map((ap) => {
                 return <ArchiveMini key={ap.id} {...ap} />
             })}
         </Grid>}
