@@ -12,6 +12,15 @@ import { useEffect, useRef, useState } from 'react';
 import Button from '@/components/Button/Button';
 import useBreakpoints from '@/hooks/useBreakpoints';
 import { useTranslation } from 'react-i18next';
+import { getProjects } from '@/services/api';
+import { ProjectIResponse } from '@/hooks/useProjects';
+
+export async function generateStaticParams() {
+    const projects = await getProjects();
+    return projects.map((project: ProjectIResponse) => ({
+      slug: project.slug,
+    }));
+}
 
 function dividirArray(arr: string[]): [string[], string[]] {
     const array1 = arr.filter((_, index) => index % 2 === 0); // Elementos en posiciones 0, 2, 4, ...
