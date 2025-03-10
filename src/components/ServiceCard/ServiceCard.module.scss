@@ -31,13 +31,13 @@
     .link {
         display: flex;
         justify-content: end;
-        align-items: start;
+        align-items: flex-start;
     }
     @media (max-width: 768px) {
         grid-template-columns: 1fr;
         gap: 24px;
         .link {
-            justify-content: start;
+            justify-content: flex-start;
         }
     }
 }
