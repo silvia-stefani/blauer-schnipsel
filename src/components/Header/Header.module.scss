@@ -47,104 +47,6 @@
         }
     }
 
-    .menu {
-        width: 100%;
-        align-items: center;
-        display: flex;
-        transition: all 200ms ease;
-        padding: 16px;
-        gap: 8px;
-        @media (max-width: 768px) {
-            gap: 16px;
-        }
-
-        &.open {
-            transform: translateX(0%);
-            .logo, .navbar {
-                display: flex;
-            }
-        }
-        .logo {
-            white-space: nowrap;
-            font-size: 16px;
-            font-weight: 600;
-            @media (max-width: 768px) {
-                font-size: 20px;
-            }
-        }
-        .nav_container {
-            display: flex;
-            justify-content: end;
-            align-items: center;
-        }
-        .navbar {
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            /* .dot {
-                width: 4px;
-                height: 4px;
-                background-color: $primary;
-                border-radius: 50%;
-                margin-top: 8px;
-            } */
-        }
-        .list {
-            max-width: 100%;
-            list-style: none;
-            padding: 0;
-            display: flex;
-            align-items: center;
-            .item, 
-            .language {
-                font-size: 16px;
-                font-weight: 600;
-                text-transform: lowercase;
-                display: flex;
-                align-items: center;
-                transition: all 200ms ease;
-                &:hover:not(.current) {
-                    opacity: 0.6;
-                    cursor: pointer;
-                }
-                &.disabled {
-                    pointer-events: none;
-                    opacity: 0.4;
-                }
-                &.current {
-                    color: $light;
-                    background-color: $primary;
-                }
-            }
-            .item {
-                &:not(:last-child)::after {
-                    content: "/";
-                }
-                a {
-                    display: inline-flex;
-                    align-items: center;
-                    justify-content: center;
-                }
-            }
-            .language {
-                text-transform: lowercase;
-                font-weight: 600;
-                &:not(:last-child)::after {
-                    content: "/";
-                }
-            }
-        }
-        .features {
-            display: flex;
-            gap: 8px;
-            @media (max-width: 768px) {
-                margin-left: auto;
-            }
-        }
-    }
-
     &.scrollActive:has(.menu.open) {
         background-color: $secondary;
         border-color: rgba(0, 0, 0, 0.1);
@@ -244,6 +146,7 @@
 
     .MenuMobile {
         display: flex;
+        flex-direction: column;
         padding: 16px;
         align-items: center;
         justify-content: center;
@@ -264,7 +167,8 @@
                 height: 28px;
             }
         }
-        .navbar {
+        .navbar,
+        .navbar_languages {
             width: 100%;
             padding: 16px;
             height: 100%;
@@ -281,6 +185,20 @@
                 padding: 0;
                 li {
                     font-size: 24px;
+                    &.current {
+                        color: $primary;
+                        background-color: $light;
+                    }
+                }
+            }
+        }
+        .navbar_languages {
+            height: fit-content;
+            ul.list {
+                flex-direction: row;
+                li.current {
+                    color: $primary;
+                    background-color: $light;
                 }
             }
         }

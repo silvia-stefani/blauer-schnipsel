@@ -14,7 +14,6 @@ import useBreakpoints from '@/hooks/useBreakpoints';
 import { useTranslation } from 'react-i18next';
 
 import * as React from 'react';
-import { ProjectI } from '@/hooks/useProjects';
 
 
 function dividirArray(arr: string[]): [string[], string[]] {
@@ -31,13 +30,11 @@ interface IClientProjectPageProps {
 const ClientProjectPage: React.FunctionComponent<IClientProjectPageProps> = () => {
 
     const screenpart = window.innerHeight / 4;
-    const { smallDevice } = useBreakpoints();
+    const { mediumDevice } = useBreakpoints();
     const { t } = useTranslation();
     
     const params = useParams();
     const { slug } = params; // Obtenemos el slug y el idioma desde la URL
-    
-    if(!slug) return null;
     
     const {content: project, loading, error} = usePageContent(slug as string);
     const [isExpanded, setIsExpanded] = useState(false);
@@ -71,7 +68,7 @@ const ClientProjectPage: React.FunctionComponent<IClientProjectPageProps> = () =
     
                     <div ref={headRef} className={styles.head}>
                         <Head title={project.title[i18n.language]}>
-                            {smallDevice && <Button label={isExpanded ? t("readLess") : t("readMore")} onPress={handleExpand} />}
+                            {mediumDevice && <Button label={isExpanded ? t("readLess") : t("readMore")} onPress={handleExpand} />}
                         </Head>
                     </div>
                     
