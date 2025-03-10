@@ -4,6 +4,9 @@ const nextConfig = {
     output: 'export',
     distDir: 'dist',
     trailingSlash: true,
+    webpack: (config) => {
+      return config;
+    }
 }
 
 export default nextConfig;
