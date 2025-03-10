@@ -37,7 +37,7 @@ const ServiceCard: React.FunctionComponent<IServiceCardProps> = ({
             <div className={styles.text}>{text}</div>
         </div>
         <div className={styles.link}>
-          <Button label={t("readMore")} type='primary' onPress={handleClick} url='archive' />
+          <Button label={t("readMore")} type='primary' onPress={handleClick} url='/archive' />
         </div>
     </div>
   )

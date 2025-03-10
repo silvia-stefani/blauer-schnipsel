@@ -76,7 +76,6 @@ export default function services() {
         <div onMouseLeave={() => setShowImage(false)}>
             {services.map((service, i) => {
                 const lastChild = (i + 1) === services.length;
-                console.log(service);
                 
                 return (
                     <Fragment key={i}>
