@@ -22,7 +22,7 @@ const Button: React.FC<IButtonProps> = ({ label, url, type = "primary", onPress,
     if (url) {
       event.preventDefault();
       if (isExternal) {
-        window.open(url, '_blank', 'noopener noreferrer');
+        if (typeof window !== "undefined") window.open(url, '_blank', 'noopener noreferrer');
       } else {
         router.push(url);
       }

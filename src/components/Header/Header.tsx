@@ -45,7 +45,7 @@ const Header: React.FunctionComponent<IHeaderProps> = () => {
     const [currentURL, setCurrentURL] = useState('');
   
     useEffect(() => {
-        if(window.location.pathname) setCurrentURL(window.location.pathname);
+        if (typeof window !== "undefined") setCurrentURL(window.location.pathname);
     }, []);
 
     useEffect(() => {
