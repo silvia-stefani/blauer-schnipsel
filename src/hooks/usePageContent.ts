@@ -1,7 +1,7 @@
 'use client'
 
 import { PageI } from "@/interfaces/PageI.interface";
-import { getPageContent } from "@/services/pages";
+import { getPageContent } from "@/services/api";
 import { useState, useEffect } from "react";
 
 const usePageContent = (slug: string) => {
