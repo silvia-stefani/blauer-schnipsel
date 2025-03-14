@@ -186,7 +186,8 @@ export default function About() {
                         </div>
                         <div className={styles.block_container}>
                             <div className={styles.block}>
-                                {contacts.map((c) => {
+                                {(contacts.length > 0) && contacts.map((c) => {
+                                    if(!c.acf) return null;
                                     let href;
                                     switch (c.acf.link.type) {
                                         case 'mail':
@@ -213,7 +214,8 @@ export default function About() {
                                 })}
                             </div>
                             <div className={styles.block}>
-                                {team.map((t) => {
+                                {(team.length > 0) && team.map((t) => {
+                                    if(!t.acf) return null;
                                     return (
                                         <div className={styles.member} key={t.id}>
                                             <div className={styles.image}>
