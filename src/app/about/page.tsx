@@ -6,6 +6,7 @@ import usePageContent from '@/hooks/usePageContent';
 import { useTranslation } from 'react-i18next';
 import { useEffect, useState } from 'react';
 import { getContacts, getCurriculum, getCurriculumCategories, getTeam } from '@/services/api';
+import Head from '@/layout/Head/Head';
 
 interface CurriculumCategory {
     id: number;
@@ -177,15 +178,16 @@ export default function About() {
 
     return (
         <main className={styles.about}>
-            <Grid cols={{xs: 1, sm: 1, md: 4, lg: 4}}>
+            <Grid cols={{xs: 1, sm: 1, md: 1, lg: 4}}>
                 <div id="contacts-col" className={styles.column} is={openBlock === "contacts-col" ? 'open' : 'closed'}>
                     <div className={styles.container}>
                         <div className={styles.head} onClick={() => toggleBlock('contacts-col')}>
-                            <h4 className={styles.title}>{about.contacts_title[currentLocale]}</h4>
+                            <Head title={about.contacts_title[currentLocale]} />
                         </div>
                         <div className={styles.block_container}>
                             <div className={styles.block}>
-                                {contacts.map((c) => {
+                                {(contacts.length > 0) && contacts.map((c) => {
+                                    if(!c.acf) return null;
                                     let href;
                                     switch (c.acf.link.type) {
                                         case 'mail':
@@ -212,7 +214,8 @@ export default function About() {
                                 })}
                             </div>
                             <div className={styles.block}>
-                                {team.map((t) => {
+                                {(team.length > 0) && team.map((t) => {
+                                    if(!t.acf) return null;
                                     return (
                                         <div className={styles.member} key={t.id}>
                                             <div className={styles.image}>
@@ -235,13 +238,8 @@ export default function About() {
                     return (
                         <div key={col.slug} className={styles.column} is={openBlock === col.slug ? 'open' : 'closed'}>
                             <div className={styles.container}>
-                                <div className={styles.head}>
-                                    <h4
-                                        className={styles.title}
-                                        onClick={() => toggleBlock(col.slug)} // Agregar el manejador de clic
-                                    >
-                                        {col.acf.label[currentLocale]}
-                                    </h4>
+                                <div className={styles.head} onClick={() => toggleBlock(col.slug)}>
+                                    <Head title={col.acf.label[currentLocale]} />
                                 </div>
                                 <div className={styles.block_container}>
                                     {/* Solo mostrar el contenido si el bloque está abierto */}

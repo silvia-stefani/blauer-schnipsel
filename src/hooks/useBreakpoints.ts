@@ -13,25 +13,25 @@ interface BreakPointsI {
 const useBreakpoints = (): BreakPointsI => {
   const [category, setCategory] = useState<Breakpoint>('lg');
   const [isTouchable, setIsTouchable] = useState<boolean>(false);
-  const [width, setWidth] = useState<number>(window.innerWidth);
+  const [width, setWidth] = useState<number>(typeof window !== "undefined" ? window.innerWidth : 0);
 
   useEffect(() => {
     const handleResize = () => {
-      const width = window.innerWidth;
+      const width = typeof window !== "undefined" ? window.innerWidth : 0;
       setWidth(width)
     };
 
     // Initial calculation
     handleResize();
 
-    window.addEventListener('resize', handleResize);
+    if (typeof window !== "undefined") window.addEventListener('resize', handleResize);
     return () => {
-      window.removeEventListener('resize', handleResize);
+      if (typeof window !== "undefined") window.removeEventListener('resize', handleResize);
     };
   }, []);
 
   useEffect(() => {
-    setIsTouchable(('ontouchstart' in window) || (navigator.maxTouchPoints > 0));
+    if (typeof window !== "undefined") setIsTouchable(('ontouchstart' in window) || (navigator.maxTouchPoints > 0));
   }, [category]);
 
   return {

@@ -10,6 +10,7 @@ import { Fragment, useEffect, useState } from 'react';
 import { getServices } from '@/services/api';
 import useMousePosition from '@/hooks/useMousePosition';
 import { PageI } from '@/interfaces/PageI.interface';
+import useBreakpoints from '@/hooks/useBreakpoints';
 
 interface ServicesPageI extends PageI {
     link: {
@@ -24,6 +25,7 @@ export default function services() {
     const currentLocale = i18n.language;
     const { content, loading, error } = usePageContent('services');
     const { x, y } = useMousePosition();
+    const { largeDevice } = useBreakpoints();
 
     const [currentImage, setCurrentImage] = useState('');
     const [showImage, setShowImage] = useState(false);
@@ -47,8 +49,10 @@ export default function services() {
     }, []);
 
     const handleMouseOver = (image: string) => {
-        setShowImage(true);
-        setCurrentImage(image);
+        if(largeDevice) {
+            setShowImage(true);
+            setCurrentImage(image);
+        }
     }
 
     if(!content) return;
@@ -72,7 +76,6 @@ export default function services() {
         <div onMouseLeave={() => setShowImage(false)}>
             {services.map((service, i) => {
                 const lastChild = (i + 1) === services.length;
-                console.log(service);
                 
                 return (
                     <Fragment key={i}>
@@ -82,6 +85,7 @@ export default function services() {
                                 title={service.acf.title[`title_${currentLocale}`]}
                                 text={service.acf.description[`description_${currentLocale}`]}
                                 tag={service.acf.tag}
+                                image={service.acf.image}
                             />
                         </div>
                     {!lastChild && <Tratteggio direction='horizontal' />}

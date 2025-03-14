@@ -26,10 +26,10 @@ const ArchiveMini: React.FunctionComponent<IArchiveMiniProps> = ({
             <img src={image} alt={title[currentLanguage]} />
         </div>
         <h6 className={styles.title}>{title[currentLanguage]}</h6>
-        {/* <div className={styles.info}>
+        <div className={styles.info}>
             <span>{date.year.name}</span>
             <span>{location}</span>
-        </div> */}
+        </div>
 
         <div className={styles.tags}>
             {tags.map((tag) => <Tag key={tag.id} id={String(tag.id)} label={tag.name[currentLanguage]} style='shade' />)}

@@ -26,6 +26,7 @@ const Header: React.FunctionComponent<IHeaderProps> = () => {
 
     const changeLanguage = (lng: string) => {
         i18n.changeLanguage(lng); // Cambia el idioma
+        setopen(false);
     };
     
     const [open, setopen] = useState(false);
@@ -44,7 +45,7 @@ const Header: React.FunctionComponent<IHeaderProps> = () => {
     const [currentURL, setCurrentURL] = useState('');
   
     useEffect(() => {
-        if(window.location.pathname) setCurrentURL(window.location.pathname);
+        if (typeof window !== "undefined") setCurrentURL(window.location.pathname);
     }, []);
 
     useEffect(() => {
@@ -71,13 +72,24 @@ const Header: React.FunctionComponent<IHeaderProps> = () => {
         </ul>
     </nav>
 
+    const MenuLanguage = <nav className={styles.navbar_languages}>
+        <ul className={styles.list}>
+        {supportedLanguages.map((lang) => {
+            const isCurrent = lang === currentLanguage;
+            if(lang === "cimode") return;
+            return <li key={`lang-${lang}`} className={`${styles.language} ${isCurrent ? styles.current : ''}`}><button onClick={() => changeLanguage(lang)}>{lang}</button></li>;
+        })}
+    </ul>
+    </nav>
+
     const MenuMobile = <div className={styles.MenuMobile}>
-        <button className={styles.close} onClick={() => setopen(false)}>
+        <button className={styles.close} onClick={handleToggleMenu}>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21 21">
                 <path d="M4.5 18 3 16.5l6-6-6-6L4.5 3l6 6 6-6L18 4.5l-6 6 6 6-1.5 1.5-6-6-6 6Z" fill='currentColor'/>
             </svg>
         </button>
         {Navbar}
+        {MenuLanguage}
     </div>
     
     return <header className={`${styles.Header}`}>
@@ -89,13 +101,7 @@ const Header: React.FunctionComponent<IHeaderProps> = () => {
             {!mediumDevice && Navbar}
 
             <div className={styles.features}>
-                {!mediumDevice && <ul className={styles.list}>
-                    {supportedLanguages.map((lang) => {
-                        const isCurrent = lang === currentLanguage;
-                        if(lang === "cimode") return;
-                        return <li key={`lang-${lang}`} className={`${styles.language} ${isCurrent ? styles.current : ''}`}><button onClick={() => changeLanguage(lang)}>{lang}</button></li>;
-                    })}
-                </ul>}
+                {!mediumDevice && MenuLanguage}
                 <button className={styles.swipeTratteggio} onClick={swipeTratteggio}>
                     <svg viewBox={`0 0 ${currentTratteggio.viewbox.w} ${currentTratteggio.viewbox.h}`}>
                         <path d={currentTratteggio.path} />

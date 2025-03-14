@@ -35,14 +35,14 @@ const Tratteggio: React.FunctionComponent<ITratteggioProps> = ({
         // Llamamos a la función de actualización al montar el componente
         setTimeout(() => {
             updateSize();
-        }, 100);
+        }, 200);
 
         // Agregar un listener para cambios en el tamaño
-        window.addEventListener('resize', updateSize);
+        if (typeof window !== "undefined") window.addEventListener('resize', updateSize);
 
         // Limpiar el listener cuando el componente se desmonte
         return () => {
-            window.removeEventListener('resize', updateSize);
+            if (typeof window !== "undefined") window.removeEventListener('resize', updateSize);
         };
     }, [direction]);
 

@@ -12,6 +12,7 @@
         overflow-y: auto;
         display: flex;
         flex-direction: column;
+        padding: 16px;
 
         .introduction {
             position: relative;
@@ -45,7 +46,6 @@
         grid-template-columns: 1fr;
         overflow-y: auto;
         .container {
-            padding: 16px;
             overflow-y: hidden;
             min-height: 55vh;
             h2 {

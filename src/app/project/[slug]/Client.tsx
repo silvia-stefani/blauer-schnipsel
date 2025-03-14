@@ -14,7 +14,7 @@ import useBreakpoints from '@/hooks/useBreakpoints';
 import { useTranslation } from 'react-i18next';
 
 import * as React from 'react';
-import { ProjectI } from '@/hooks/useProjects';
+import useProjects, { ProjectI, ProjectIResponse } from '@/hooks/useProjects';
 
 
 function dividirArray(arr: string[]): [string[], string[]] {
@@ -25,24 +25,19 @@ function dividirArray(arr: string[]): [string[], string[]] {
 
 
 interface IClientProjectPageProps {
-    
+    projectResponse: ProjectIResponse;
 }
 
-const ClientProjectPage: React.FunctionComponent<IClientProjectPageProps> = () => {
+const ClientProjectPage: React.FunctionComponent<IClientProjectPageProps> = ({projectResponse}) => {
 
-    const screenpart = window.innerHeight / 4;
+    const screenpart = typeof window !== "undefined" ? window.innerHeight / 4 : 0;
     const { smallDevice } = useBreakpoints();
     const { t } = useTranslation();
-    
-    const params = useParams();
-    const { slug } = params; // Obtenemos el slug y el idioma desde la URL
-    
-    if(!slug) return null;
-    
-    const {content: project, loading, error} = usePageContent(slug as string);
+
     const [isExpanded, setIsExpanded] = useState(false);
     const [height, setHeight] = useState(screenpart);
-    
+    const { content: project } = usePageContent(projectResponse)
+     
     const headRef = useRef<HTMLDivElement>(null);
     
     const handleExpand = () => {
@@ -52,14 +47,12 @@ const ClientProjectPage: React.FunctionComponent<IClientProjectPageProps> = () =
     useEffect(() => {
         if(headRef.current) {
             const he = headRef.current.getBoundingClientRect().height;
-            const hc = isExpanded ? screenpart : (window.innerHeight - he);
+            const hc = isExpanded ? screenpart : (typeof window !== "undefined" ? window.innerHeight : 0 - he);
             setHeight(hc);
         }
     }, [isExpanded, headRef.current]);
     
-    if (loading) return null;
-    if (error) return <p>Proyecto no encontrado.</p>;
-    if (!project) return null;
+    if (!project) return <p>Proyecto no encontrado.</p>;
     
     const galleryDivided = dividirArray(project.gallery);
     

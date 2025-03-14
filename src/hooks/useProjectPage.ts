@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import { ProjectI, ProjectIResponse } from "./useProjects";
 import { useArchive } from "@/contexts/ArchiveContext";
 
-const usePageContent = (id: string) => {
+const usePageContent = (page: ProjectIResponse) => {
   const [content, setContent] = useState<ProjectI | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -15,7 +15,6 @@ const usePageContent = (id: string) => {
     const fetchContent = async () => {
       try {
         setLoading(true);
-        let page: ProjectIResponse = await getProject(id);
         const tags = categories.filter(item => page.acf.tags.includes(item.id));
         setContent({
           id: page.id,
@@ -36,7 +35,7 @@ const usePageContent = (id: string) => {
     };
 
     fetchContent();
-  }, [id, categories]);
+  }, [page, categories]);
 
   return { content, loading, error };
 };

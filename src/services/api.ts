@@ -1,7 +1,19 @@
 import axios from 'axios';
 
 // URL base de la API de WordPress
-const apiURL = "http://blauerschnipsel.local/wp-json/wp/v2";
+const apiURL = `${process.env.NEXT_PUBLIC_WORDPRESS_API_URL}/wp-json/wp/v2`;
+
+export const getPageContent = async (slug: string) => {
+  try {
+    const res = await fetch(`${apiURL}/pages?slug=${slug}`);
+    if (!res.ok) throw new Error("Failed to fetch page content");
+    const pages = await res.json();
+    return pages[0]; // El primer resultado debería ser la página que buscamos
+  } catch (error) {
+    console.error("Error fetching page content:", error);
+    return null;
+  }
+};
 
 // Función para obtener los proyectos
 export const getProjects = async () => {
@@ -132,7 +144,7 @@ export const getIntroTextGroup = async (id?: number) => {
 
 export const getProjectEvents = async () => {
   try {
-    const response = await axios.get(`${apiURL}/projects?project_category=138&project_category=139`);
+    const response = await axios.get(`${apiURL}/projects?project_category=${process.env.NEXT_PUBLIC_EVENTSID}&project_category=${process.env.NEXT_PUBLIC_WORKSHOPSID}`);
     return response.data;
   } catch (error) {
     console.error('Error fetching services:', error);
