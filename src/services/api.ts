@@ -144,7 +144,7 @@ export const getIntroTextGroup = async (id?: number) => {
 
 export const getProjectEvents = async () => {
   try {
-    const response = await axios.get(`${apiURL}/projects?project_category=138&project_category=139`);
+    const response = await axios.get(`${apiURL}/projects?project_category=${process.env.NEXT_PUBLIC_EVENTSID}&project_category=${process.env.NEXT_PUBLIC_WORKSHOPSID}`);
     return response.data;
   } catch (error) {
     console.error('Error fetching services:', error);

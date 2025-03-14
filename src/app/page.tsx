@@ -59,7 +59,7 @@ export default function home() {
         <section className={styles.container}>
           
           <div className={styles.introduction}>
-            {introTexts && introTexts.length > 0 && <AnimatedText data={introTexts.map((it) => {
+            {introTexts.length > 0 && <AnimatedText data={introTexts.map((it) => {
               return {
                 static: it.static[i18n.language as any],
                 dynamic: it.dynamic.map((d) => d[i18n.language as any])
@@ -71,7 +71,7 @@ export default function home() {
 
         <Tratteggio  direction='vertical' />
 
-        <aside className={styles.sidebar}>
+        { (events && events.length > 0) && <aside className={styles.sidebar}>
           <div className={styles.events}>
             {events.map((e) => {
               return <EventCard
@@ -84,7 +84,7 @@ export default function home() {
               />
             })}
           </div>
-        </aside>
+        </aside> }
 
       </main>
     </Fragment>
