@@ -34,6 +34,9 @@ const ClientProjectPage: React.FunctionComponent<IClientProjectPageProps> = ({pr
     const { smallDevice } = useBreakpoints();
     const { t } = useTranslation();
 
+    console.log(screenpart);
+    
+
     const [isExpanded, setIsExpanded] = useState(false);
     const [height, setHeight] = useState(screenpart);
     const { content: project } = usePageContent(projectResponse)
@@ -47,7 +50,7 @@ const ClientProjectPage: React.FunctionComponent<IClientProjectPageProps> = ({pr
     useEffect(() => {
         if(headRef.current) {
             const he = headRef.current.getBoundingClientRect().height;
-            const hc = isExpanded ? screenpart : (typeof window !== "undefined" ? window.innerHeight : 0 - he);
+            const hc = isExpanded ? screenpart : ((typeof window !== "undefined" ? window.innerHeight : 0) - he);
             setHeight(hc);
         }
     }, [isExpanded, headRef.current]);
