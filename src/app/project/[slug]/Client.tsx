@@ -30,7 +30,7 @@ interface IClientProjectPageProps {
 
 const ClientProjectPage: React.FunctionComponent<IClientProjectPageProps> = ({projectResponse}) => {
 
-    const screenpart = window.innerHeight / 4;
+    const screenpart = typeof window !== "undefined" ? window.innerHeight / 4 : 0;
     const { smallDevice } = useBreakpoints();
     const { t } = useTranslation();
 
@@ -47,7 +47,7 @@ const ClientProjectPage: React.FunctionComponent<IClientProjectPageProps> = ({pr
     useEffect(() => {
         if(headRef.current) {
             const he = headRef.current.getBoundingClientRect().height;
-            const hc = isExpanded ? screenpart : (window.innerHeight - he);
+            const hc = isExpanded ? screenpart : (typeof window !== "undefined" ? window.innerHeight : 0 - he);
             setHeight(hc);
         }
     }, [isExpanded, headRef.current]);
