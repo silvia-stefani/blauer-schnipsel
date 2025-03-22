@@ -12,6 +12,7 @@ interface IEventCardProps {
     place: string;
     image: string;
     canBook?: boolean;
+    slug: string;
 }
 
 const EventCard: React.FunctionComponent<IEventCardProps> = ({
@@ -20,6 +21,7 @@ const EventCard: React.FunctionComponent<IEventCardProps> = ({
     place,
     image,
     canBook,
+    slug,
 }) => {
 
     const { t } = useTranslation();
@@ -35,7 +37,7 @@ const EventCard: React.FunctionComponent<IEventCardProps> = ({
                 <div className={styles.image}>
                     <img src={image} alt={title} />
                 </div>
-                <Button label={t("exploreMore")} type={canBook ? 'light' : 'primary'} url='' />
+                <Button label={t("exploreMore")} type={canBook ? 'light' : 'primary'} url={`/project/${slug}`} />
             </div>
         </div>
         <Tratteggio direction='horizontal' />

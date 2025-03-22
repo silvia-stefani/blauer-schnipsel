@@ -81,6 +81,7 @@ export default function home() {
                 place={e.acf.location}
                 image={e.acf.cover_image}
                 canBook={e.acf.sign_up}
+                slug={e.slug}
               />
             })}
           </div>
