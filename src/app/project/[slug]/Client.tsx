@@ -34,9 +34,6 @@ const ClientProjectPage: React.FunctionComponent<IClientProjectPageProps> = ({pr
     const { smallDevice } = useBreakpoints();
     const { t } = useTranslation();
 
-    console.log(screenpart);
-    
-
     const [isExpanded, setIsExpanded] = useState(false);
     const [height, setHeight] = useState(screenpart);
     const { content: project } = usePageContent(projectResponse)
