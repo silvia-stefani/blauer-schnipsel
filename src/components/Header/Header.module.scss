@@ -12,6 +12,10 @@
     align-items: center;
     color: $primary;
 
+    .navbar_container {
+        width: 100%;
+    }
+
     .swipeTratteggio {
         display: flex;
         align-items: center;
