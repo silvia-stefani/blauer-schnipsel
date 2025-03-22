@@ -1,26 +1,24 @@
+@use '/src/assets/sass/lib/vars' as *;
+
 .project {
     overflow-y: hidden;
     display: flex;
-    /* flex-direction: column; */
+    position: relative;
     .container {
         overflow-y: auto;
         max-height: 100%;
         display: flex;
         width: calc(100% / 3);
+        min-width: 300px;
+        .info {
+            width: 100%;
+        }
     }
     .tags {
         display: flex;
-        align-items: center;
+        flex-wrap: wrap;
         padding: 16px;
-        gap: 16px;
-        .tag {
-            display: flex;
-            align-items: center;
-            gap: inherit;
-            &:not(:last-child)::after {
-                content: "-";
-            }
-        }
+        gap: 8px;
     }
     .data {
         width: 100%;
@@ -45,5 +43,29 @@
         img {
             width: 100%;
         }
+
+        @media (max-width: 1024px) {
+            grid-template-columns: 1fr;
+        }
+
     }
+
+    @media (max-width: 768px) {
+        flex-direction: column;
+        .container {
+            background-color: $light;
+            max-width: unset;
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            z-index: 2000;
+            transition: all 300ms ease;
+        }
+    }
+
+    &.isExpanded {
+        .container {
+        }
+    }
+
 }

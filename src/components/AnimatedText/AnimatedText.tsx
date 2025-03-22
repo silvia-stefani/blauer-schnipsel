@@ -1,19 +1,21 @@
 import { useState, useEffect, Fragment } from "react";
 import styles from './AnimatedText.module.scss';
-import { useTranslation } from "react-i18next";
-import { IntroTextsI } from "@/interfaces/IntroTextsI.interface";
 
-export default function AnimatedText() {
+import * as React from 'react';
 
-    const { t } = useTranslation();
-    
-    const bsIs: IntroTextsI = t("intro_bs.is", { returnObjects: true });
-    const bsThat: IntroTextsI = t("intro_bs.that", { returnObjects: true });
-    const bsThrough: IntroTextsI = t("intro_bs.through", { returnObjects: true });
-    const bsFor: IntroTextsI = t("intro_bs.for", { returnObjects: true });
-    const bsAim: IntroTextsI = t("intro_bs.aim", { returnObjects: true });
+export interface group {
+  static: string;
+  dynamic: string[];
+}
+interface IAnimatedTextProps {
+  data: group[],
+}
 
-    const textGroups = [bsIs, bsThat, bsThrough, bsFor, bsAim];
+const AnimatedText: React.FunctionComponent<IAnimatedTextProps> = ({
+  data
+}) => {
+
+    const textGroups = data;
 
     // Estados individuales para cada conjunto de textos
     const [indexes, setIndexes] = useState(textGroups.map(() => 0)); // Índice actual de cada grupo
@@ -30,7 +32,7 @@ export default function AnimatedText() {
   
         if (!deleting[i]) {
           // Escritura letra por letra
-          if (texts[i].length < currentWord.length) {
+          if (texts[i].length < currentWord.length) {            
             timeouts[i] = setTimeout(() => {
               setTexts((prev) => {
                 const newTexts = [...prev];
@@ -92,3 +94,5 @@ export default function AnimatedText() {
         </h2>
     );
 }
+
+export default AnimatedText;

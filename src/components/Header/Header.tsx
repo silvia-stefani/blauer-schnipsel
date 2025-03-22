@@ -6,7 +6,6 @@ import { useTranslation } from 'react-i18next';
 
 import styles from './Header.module.scss';
 import Link from 'next/link';
-import i18n from '@/i18n';
 import useBreakpoints from '@/hooks/useBreakpoints';
 import Tratteggio from '../Tratteggio/Tratteggio';
 import { useTratteggio } from '@/contexts/TratteggioContext';
@@ -17,16 +16,17 @@ import { MenuItemsI } from '@/interfaces/MenuItems.interface';
 interface IHeaderProps {
 }
 
-const Header: React.FunctionComponent<IHeaderProps> = (props) => {
+const Header: React.FunctionComponent<IHeaderProps> = () => {
 
-    const { t } = useTranslation();
-    const { largeDevice } = useBreakpoints();
+    const { mediumDevice } = useBreakpoints();
     const { currentTratteggio, swipeTratteggio } = useTratteggio();
+    const { i18n } = useTranslation();
     const currentLanguage = i18n.language;
     const supportedLanguages = i18n.options.supportedLngs || [];
 
     const changeLanguage = (lng: string) => {
         i18n.changeLanguage(lng); // Cambia el idioma
+        setopen(false);
     };
     
     const [open, setopen] = useState(false);
@@ -42,55 +42,88 @@ const Header: React.FunctionComponent<IHeaderProps> = (props) => {
     </svg>
 
     const [menuItems, setMenuItems] = useState<MenuItemsI[] | []>([]);
+    const [currentURL, setCurrentURL] = useState('');
+  
+    useEffect(() => {
+        if (typeof window !== "undefined") setCurrentURL(window.location.pathname);
+    }, []);
 
     useEffect(() => {
         async function fetchMenuItems() {
-            const mi = await getMenu(currentLanguage);
+            const mi = await getMenu();            
             setMenuItems(mi);
         }
         fetchMenuItems();
     }, [currentLanguage]);
-    
-    if(!menuItems) return null;
+
+    const handleSwitchRoute = (id: string) => {
+        setCurrentURL(id);
+        setopen(false);
+    }
+
+    const Navbar = <nav className={styles.navbar}>
+        <ul className={styles.list}>
+            {menuItems.length > 0 && menuItems.map((mi, i) => {
+                const current = `/${mi.url}` === currentURL;
+                return <li className={`${styles.item} ${current ? styles.current : ''}`} key={`menu${String(i)}`}>
+                    <Link className={styles.link} onClick={() => handleSwitchRoute(`/${mi.url}`)} href={`/${mi.url}`}>{mi.title[currentLanguage]}</Link>
+                </li>
+                })}
+        </ul>
+    </nav>
+
+    const MenuLanguage = <nav className={styles.navbar_languages}>
+        <ul className={styles.list}>
+        {supportedLanguages.map((lang) => {
+            const isCurrent = lang === currentLanguage;
+            if(lang === "cimode") return;
+            return <li key={`lang-${lang}`} className={`${styles.language} ${isCurrent ? styles.current : ''}`}><button onClick={() => changeLanguage(lang)}>{lang}</button></li>;
+        })}
+    </ul>
+    </nav>
+
+    const MenuMobile = <div className={styles.MenuMobile}>
+        <button className={styles.close} onClick={handleToggleMenu}>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21 21">
+                <path d="M4.5 18 3 16.5l6-6-6-6L4.5 3l6 6 6-6L18 4.5l-6 6 6 6-1.5 1.5-6-6-6 6Z" fill='currentColor'/>
+            </svg>
+        </button>
+        {Navbar}
+        {MenuLanguage}
+    </div>
     
     return <header className={`${styles.Header}`}>
+
         <div className={`${styles.menu} ${open ? styles.open : ''}`}>
 
             <a href="/" className={styles.logo}>Blauer Schnipsel</a>
             
-            <nav className={styles.navbar}>
-                {largeDevice && <ul className={styles.list}>
-                    {menuItems.length > 0 && menuItems.map((mi) => {
-                        const slug = mi.url.replace(/-it|-p|-en|-de/g, '');
-                        return <li className={`${styles.item}`} key={String(mi.id)}>
-                            <Link className={styles.link} href={`/${slug}`}>{mi.title}</Link>
-                        </li>
-                        })}
-                </ul>}
-            </nav>
+            {!mediumDevice && Navbar}
+
             <div className={styles.features}>
-                <ul className={styles.list}>
-                    {supportedLanguages.map((lang) => {
-                        const isCurrent = lang === currentLanguage;
-                        if(lang === "cimode") return;
-                        return <li key={lang} className={`${styles.language} ${isCurrent ? styles.current : ''}`}><button onClick={() => changeLanguage(lang)}>{lang}</button></li>;
-                    })}
-                </ul>
+                {!mediumDevice && MenuLanguage}
                 <button className={styles.swipeTratteggio} onClick={swipeTratteggio}>
                     <svg viewBox={`0 0 ${currentTratteggio.viewbox.w} ${currentTratteggio.viewbox.h}`}>
                         <path d={currentTratteggio.path} />
                     </svg>
                 </button>
-                <a className={styles.swipeTratteggio} href='/interactive' target='_blank'>
+                {/* <a className={styles.swipeTratteggio} href='/interactive' target='_blank'>
                     {bs1.svg}
-                </a>
+                </a> */}
             </div>
+
+            {mediumDevice && <div className={styles.nav_container}>
+                <div className={styles.toggle} onClick={handleToggleMenu}>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21 21">
+                        <path d="M1 17v-2.167h19V17H1Zm0-5.417V9.417h19v2.166H1Zm0-5.416V4h19v2.167H1Z" fill='currentColor'/>
+                    </svg>
+                </div>
+            </div>}
+            
         </div>
-        {/* <div className={styles.toggle} onClick={handleToggleMenu}>
-            <svg xmlns="http://www.w3.org/2000/svg"viewBox="0 -960 960 960" width="60px" height="60px">
-                {open ? Close : Menu }
-            </svg>
-        </div> */}
+
+        {(mediumDevice && open) && MenuMobile}
+        
         <Tratteggio direction='horizontal' />
     </header>;
     };

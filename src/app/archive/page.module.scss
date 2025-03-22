@@ -1,0 +1,27 @@
+@import '@/assets/sass/lib/vars';
+
+.archive {
+    .filters {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        .cat {
+            color: $primary;
+            padding: 2px 4px;
+            &:hover {
+                cursor: pointer;
+                opacity: 0.8;
+            }
+            &:hover,
+            &.current {
+                color: $light;
+                background-color: $primary;
+            }
+            &.current {
+                cursor: default;
+                pointer-events: none;
+            }
+        }
+    }
+}

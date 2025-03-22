@@ -27,6 +27,13 @@
                     margin-top: 4px;
                     min-width: calc(100% / 3);
                 }
+                @media (max-width: 768px) {
+                    gap: 24px;
+                    font-size: 20px;
+                    &::before {
+                        min-width: fit-content;
+                    }
+                }
             }
         }
 

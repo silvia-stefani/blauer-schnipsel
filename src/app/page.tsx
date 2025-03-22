@@ -1,26 +1,53 @@
 'use client'
 
-import { Fragment, useEffect, useRef, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import styles from './page.module.scss';
-import Schnipsel from '@/components/Schnipsel/Schnipsel';
 import { useTranslation } from 'react-i18next';
 import EventCard from '@/components/EventCard/EventCard';
 import Tratteggio from '@/components/Tratteggio/Tratteggio';
-import useProjects from '@/hooks/useProjects';
-import ArchiveMini from '@/components/ArchiveMini/ArchiveMini';
-import usePageContent from '@/hooks/usePageContent';
-import AnimatedText from '@/components/AnimatedText/AnimatedText';
-import Head from '@/layout/Head/Head';
-import Grid from '@/layout/Grid/Grid';
+import { getIntroTextGroup, getIntroTexts, getProjectEvents } from '@/services/api';
+import AnimatedText, { group } from '@/components/AnimatedText/AnimatedText';
+import { ProjectI, ProjectIResponse } from '@/hooks/useProjects';
 
 export default function home() {
 
-  const { t, i18n } = useTranslation();
-  const currentLocale = i18n.language;
-  const { content, loading, error } = usePageContent(`home-${currentLocale}`);
-  
-  if (loading) return null;
-  if (error) return <p>{error}</p>;
+  const { i18n } = useTranslation();
+  const [introTexts, setIntroTexts] = useState<group[] | []>([]);
+  const [events, setEvents] = useState<ProjectIResponse[] | []>([]);
+
+  useEffect(() => {
+      async function fetchData() {
+          const data = await getIntroTextGroup();
+          const dynamictexts = await getIntroTexts();
+          const events = await getProjectEvents();
+          setEvents(events);
+          
+          let introtexts: any[] | [] = [];
+          if(data) {
+            introtexts = await Promise.all(
+              data.map(async (d: any) => {
+                // Obtén los textos dinámicos de forma asincrónica
+                
+                const dt = dynamictexts.filter((dt: any) => 
+                  dt.acf.group.includes(d.id)
+                );
+                const reducedData = dt.map((item: any) => ({
+                  ...item.acf.text
+                }));
+                
+                // Retorna el objeto con los textos estáticos y dinámicos resueltos
+                return {
+                  static: d.acf.label,
+                  dynamic: reducedData, // Aquí ya tendrás los datos resueltos
+                };
+              })
+            );
+          }
+          
+          setIntroTexts(introtexts);
+      }
+      fetchData();
+  }, []);
 
   return (
     <Fragment>
@@ -31,40 +58,34 @@ export default function home() {
 
         <section className={styles.container}>
           
-          {/* <div ref={containerRef} className={`${styles.introduction} ${startGame ? styles.start : ''}`}>
-            <h2>{home[`intro_${currentLocale}`]}</h2>
-          </div> */}
           <div className={styles.introduction}>
-            <AnimatedText />
+            {introTexts.length > 0 && <AnimatedText data={introTexts.map((it) => {
+              return {
+                static: it.static[i18n.language as any],
+                dynamic: it.dynamic.map((d) => d[i18n.language as any])
+              }
+            })} />}
           </div>
 
         </section>
 
         <Tratteggio  direction='vertical' />
 
-        <aside className={styles.sidebar}>
+        { (events && events.length > 0) && <aside className={styles.sidebar}>
           <div className={styles.events}>
-            <EventCard
-              title='Workshop Riciclo Creativo'
-              date='18.21/05/25'
-              place='Spazio Pantone, Narni'
-              image='/img/image_workshop_1.jpg'
-              canBook={true}
-            />
-            <EventCard
-              title='Workshop Riciclo Creativo'
-              date='18.21/05/25'
-              place='Spazio Pantone, Narni'
-              image='/img/image_workshop_1.jpg'
-            />
-            <EventCard
-              title='Workshop Riciclo Creativo'
-              date='18.21/05/25'
-              place='Spazio Pantone, Narni'
-              image='/img/image_workshop_1.jpg'
-            />
+            {events.map((e) => {
+              return <EventCard
+                key={e.id}
+                title={e.acf.title[i18n.language]}
+                date={`${e.acf.date.start} - ${e.acf.date.end}`}
+                place={e.acf.location}
+                image={e.acf.cover_image}
+                canBook={e.acf.sign_up}
+                slug={e.slug}
+              />
+            })}
           </div>
-        </aside>
+        </aside> }
 
       </main>
     </Fragment>
