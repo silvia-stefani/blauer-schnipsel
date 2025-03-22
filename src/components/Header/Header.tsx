@@ -98,7 +98,7 @@ const Header: React.FunctionComponent<IHeaderProps> = () => {
 
             <a href="/" className={styles.logo}>Blauer Schnipsel</a>
             
-            {!mediumDevice && Navbar}
+            <div className={styles.navbar_container}>{!mediumDevice && Navbar}</div>
 
             <div className={styles.features}>
                 {!mediumDevice && MenuLanguage}
@@ -107,9 +107,9 @@ const Header: React.FunctionComponent<IHeaderProps> = () => {
                         <path d={currentTratteggio.path} />
                     </svg>
                 </button>
-                {/* <a className={styles.swipeTratteggio} href='/interactive' target='_blank'>
+                <a className={styles.swipeTratteggio} href='/interactive' target='_blank'>
                     {bs1.svg}
-                </a> */}
+                </a>
             </div>
 
             {mediumDevice && <div className={styles.nav_container}>
