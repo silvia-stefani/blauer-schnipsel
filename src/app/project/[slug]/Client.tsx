@@ -82,9 +82,9 @@ const ClientProjectPage: React.FunctionComponent<IClientProjectPageProps> = ({pr
                         <div className={styles.location}>
                             {project.location}
                         </div>
-                        <div className={styles.description}>
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta laboriosam non quidem quos tenetur culpa impedit enim, amet quam ducimus neque provident, nostrum voluptatum fugiat incidunt. Distinctio ratione quam ducimus!
-                        </div>
+                        {project.project_description && <div className={styles.description}>
+                            {project.project_description[i18n.language]}
+                        </div> }
                     </div>
                 </div>
             </div>
