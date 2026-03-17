@@ -13,9 +13,9 @@ export default function App({
     const hideHeaderOnPages = ['/interactive'];
     const showHeader = !hideHeaderOnPages.includes(pathname);
  
-    return <body>
+    return <>
       {showHeader && <Header />}
       {children}
-    </body>
+    </>
 
 }

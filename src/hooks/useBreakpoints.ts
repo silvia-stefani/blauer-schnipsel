@@ -13,7 +13,7 @@ interface BreakPointsI {
 const useBreakpoints = (): BreakPointsI => {
   const [category, setCategory] = useState<Breakpoint>('lg');
   const [isTouchable, setIsTouchable] = useState<boolean>(false);
-  const [width, setWidth] = useState<number>(typeof window !== "undefined" ? window.innerWidth : 0);
+  const [width, setWidth] = useState<number | null>(null);
 
   useEffect(() => {
     const handleResize = () => {
@@ -35,10 +35,10 @@ const useBreakpoints = (): BreakPointsI => {
   }, [category]);
 
   return {
-    xsDevice: width <= breakpoints.xs,
-    smallDevice: width <= breakpoints.sm,
-    mediumDevice: width <= breakpoints.md,
-    largeDevice: width > breakpoints.md,
+    xsDevice: width !== null && width <= breakpoints.xs,
+    smallDevice: width !== null && width <= breakpoints.sm,
+    mediumDevice: width !== null && width <= breakpoints.md,
+    largeDevice: width === null || width > breakpoints.md,
     isTouchable,
   };
 };

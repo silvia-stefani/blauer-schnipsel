@@ -37,6 +37,7 @@ export interface ProjectIResponse {
         cover_image: string;
         sign_up: boolean;
         tags: number[];
+        project_description?: {[key: string]: string};
     };
     tags: number[];
 }
@@ -45,6 +46,7 @@ export interface ProjectI {
     id: number;
     tags: ArchiveCategoryI[];
     title: {[key: string]: string};
+    project_description?: {[key: string]: string};
     date: {
         end: string;
         start: string;

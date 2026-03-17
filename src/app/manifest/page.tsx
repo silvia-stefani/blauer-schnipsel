@@ -5,6 +5,7 @@ import styles from './page.module.scss';
 import Tratteggio from '@/components/Tratteggio/Tratteggio';
 import { getStatements } from '@/services/api';
 import { useEffect, useState } from 'react';
+import Loading from '@/components/Loading/Loading';
 
 export default function manifest() {
     
@@ -17,14 +18,19 @@ export default function manifest() {
             text: {[key: string] : string}
         }
     }[] | []>([]);
+    const [loading, setLoading] = useState(true);
     
     useEffect(() => {
         async function fetchStatements() {
+            setLoading(true);
             const ss = await getStatements();
             setStatements(ss);
+            setLoading(false);
         }
         fetchStatements();
     }, []);
+
+    if (loading) return <Loading />;
 
     return <main className={styles.manifest}>
 

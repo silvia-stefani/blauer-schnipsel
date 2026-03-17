@@ -15,6 +15,7 @@ import { useTranslation } from 'react-i18next';
 
 import * as React from 'react';
 import useProjects, { ProjectI, ProjectIResponse } from '@/hooks/useProjects';
+import Loading from '@/components/Loading/Loading';
 
 
 function dividirArray(arr: string[]): [string[], string[]] {
@@ -36,7 +37,7 @@ const ClientProjectPage: React.FunctionComponent<IClientProjectPageProps> = ({pr
 
     const [isExpanded, setIsExpanded] = useState(false);
     const [height, setHeight] = useState(screenpart);
-    const { content: project } = usePageContent(projectResponse)
+    const { content: project , loading } = usePageContent(projectResponse)
      
     const headRef = useRef<HTMLDivElement>(null);
     
@@ -51,6 +52,8 @@ const ClientProjectPage: React.FunctionComponent<IClientProjectPageProps> = ({pr
             setHeight(hc);
         }
     }, [isExpanded, headRef.current]);
+
+    if(loading) return <Loading />;
     
     if (!project) return <p>Proyecto no encontrado.</p>;
     
@@ -79,9 +82,9 @@ const ClientProjectPage: React.FunctionComponent<IClientProjectPageProps> = ({pr
                         <div className={styles.location}>
                             {project.location}
                         </div>
-                        <div className={styles.description}>
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta laboriosam non quidem quos tenetur culpa impedit enim, amet quam ducimus neque provident, nostrum voluptatum fugiat incidunt. Distinctio ratione quam ducimus!
-                        </div>
+                        {project.project_description && <div className={styles.description}>
+                            {project.project_description[i18n.language]}
+                        </div> }
                     </div>
                 </div>
             </div>

@@ -8,15 +8,18 @@ import Tratteggio from '@/components/Tratteggio/Tratteggio';
 import { getIntroTextGroup, getIntroTexts, getProjectEvents } from '@/services/api';
 import AnimatedText, { group } from '@/components/AnimatedText/AnimatedText';
 import { ProjectI, ProjectIResponse } from '@/hooks/useProjects';
+import Loading from '@/components/Loading/Loading';
 
 export default function home() {
 
   const { i18n } = useTranslation();
   const [introTexts, setIntroTexts] = useState<group[] | []>([]);
   const [events, setEvents] = useState<ProjectIResponse[] | []>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
       async function fetchData() {
+          setLoading(true);
           const data = await getIntroTextGroup();
           const dynamictexts = await getIntroTexts();
           const events = await getProjectEvents();
@@ -45,9 +48,12 @@ export default function home() {
           }
           
           setIntroTexts(introtexts);
+          setLoading(false);
       }
       fetchData();
   }, []);
+
+  if (loading) return <Loading />;
 
   return (
     <Fragment>

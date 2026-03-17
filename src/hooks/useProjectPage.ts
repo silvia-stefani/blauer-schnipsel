@@ -20,6 +20,7 @@ const usePageContent = (page: ProjectIResponse) => {
           id: page.id,
           tags: tags,
           title: page.acf.title,
+          project_description: page.acf.project_description,
           date: page.acf.date,
           location: page.acf.location,
           image: page.acf.cover_image,
