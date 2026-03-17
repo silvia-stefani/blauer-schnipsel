@@ -55,7 +55,7 @@ const ClientProjectPage: React.FunctionComponent<IClientProjectPageProps> = ({pr
 
     if(loading) return <Loading />;
     
-    if (!project) return <p>Proyecto no encontrado.</p>;
+    if (!project) return <p>{t('projectNotFound')}</p>;
     
     const galleryDivided = dividirArray(project.gallery);
     

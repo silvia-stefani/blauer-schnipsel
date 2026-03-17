@@ -9,7 +9,7 @@ const ProjectPage = async ({ params }: { params: { slug: string } }) => {
   const project = await getProject(params.slug);
   
   if (!project) {
-    return <div>Proyecto no encontrado</div>; // O redirigir a una página 404
+    return null;
   }
   return <ClientProjectPage projectResponse={project} />;
 };
