@@ -1,15 +1,7 @@
-import { getProject, getProjects } from '@/services/api';  // Asegúrate de que esta función esté definida en tu API
-import { ProjectIResponse } from '@/hooks/useProjects';
+import { getProject } from '@/services/api';
 import ClientProjectPage from './Client';
 
-
-// Esta función genera las rutas estáticas para los proyectos
-export async function generateStaticParams() {
-  const projects = await getProjects();
-  return projects.map((project: ProjectIResponse) => ({
-    slug: project.slug, // Generamos una ruta dinámica usando el slug
-  }));
-}
+export const dynamic = 'force-dynamic';
 
 // Página del proyecto
 const ProjectPage = async ({ params }: { params: { slug: string } }) => {
