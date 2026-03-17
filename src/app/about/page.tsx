@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { useEffect, useState } from 'react';
 import { getContacts, getCurriculum, getCurriculumCategories, getTeam } from '@/services/api';
 import Head from '@/layout/Head/Head';
+import Loading from '@/components/Loading/Loading';
 
 interface CurriculumCategory {
     id: number;
@@ -142,12 +143,14 @@ export default function About() {
             };
         };
     }[] | []>([]);
+    const [pageLoading, setPageLoading] = useState(true);
 
     // Estado para controlar qué bloque está abierto
     const [openBlock, setOpenBlock] = useState<string | null>(null);
 
     useEffect(() => {
         async function fetchData() {
+            setPageLoading(true);
             const data = await getTeam();
             const contacts = await getContacts();
             const cols = await getCurriculumCategories();
@@ -161,14 +164,14 @@ export default function About() {
 
             setTeam(data);
             setContacts(contacts);
+            setPageLoading(false);
         }
         fetchData();
     }, []);
 
-    if (!content) return;
+    if (loading || pageLoading || !content) return <Loading />;
     const about = content.acf as any;
 
-    if (loading) return null;
     if (error) return <p>{error}</p>;
 
     // Función para manejar la apertura y cierre de los bloques

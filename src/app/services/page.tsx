@@ -11,6 +11,7 @@ import { getServices } from '@/services/api';
 import useMousePosition from '@/hooks/useMousePosition';
 import { PageI } from '@/interfaces/PageI.interface';
 import useBreakpoints from '@/hooks/useBreakpoints';
+import Loading from '@/components/Loading/Loading';
 
 interface ServicesPageI extends PageI {
     link: {
@@ -29,6 +30,7 @@ export default function services() {
 
     const [currentImage, setCurrentImage] = useState('');
     const [showImage, setShowImage] = useState(false);
+    const [servicesLoading, setServicesLoading] = useState(true);
 
     const [services, setServices] = useState<{
         id: number;
@@ -42,8 +44,10 @@ export default function services() {
     
     useEffect(() => {
         async function fetchServices() {
+            setServicesLoading(true);
             const ss = await getServices();
             setServices(ss);
+            setServicesLoading(false);
         }
         fetchServices();
     }, []);
@@ -55,10 +59,9 @@ export default function services() {
         }
     }
 
-    if(!content) return;
+    if (loading || servicesLoading || !content) return <Loading />;
     const servicesPage = content.acf as ServicesPageI;
     
-    if (loading) return null;
     if (error) return <p>{error}</p>;
 
     return <main className={styles.services}>
